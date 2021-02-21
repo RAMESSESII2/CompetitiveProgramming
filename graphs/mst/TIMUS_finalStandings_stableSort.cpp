@@ -32,17 +32,19 @@ using namespace std;
     loop(i, a, n){loop(j, b, m){cerr << dp[i][j] << " ";}cerr << endl;} 
 #define countetbits(i)\
     __builtin_popcount(i)
+typedef pair< ll,ll > pll;
+typedef pair< int, int> pii;
 
 typedef vector< long long int > vl;
 typedef vector< int > vi;
+typedef vector< pii > vpii;
+typedef vector< pll > vpll;
 typedef vector< string > vs;
 typedef vector< double > vd;
 
 typedef vector< vi > vvi;
 typedef vector< vl > vvl;
 
-typedef pair< ll,ll > pll;
-typedef pair< int, int> pii;
 
 //sieve of eratosthenes 
 vector<int> smallest_factor;
@@ -84,6 +86,82 @@ ll lcm(ll a, ll b)
 
     return temp ? (a / temp * b) : 0;
 }
+// Returns first i in [l, r] s.t. predicate(i) is true. Never evaluates r.
+template <typename I, typename P> I binarysearch(const P &predicate, I l, I r) {
+    l--;
+    while (r - l > 1) {
+        auto mid = l + (r - l) / 2;
+        if (predicate(mid))
+            r = mid;
+        else
+            l = mid;
+    }
+    return r;
+}
+//MST template
+struct Edge{
+    int from, to, weight, index;
+    bool del;
+    Edge(int f, int t, int w, int idx){ 
+        from = f;
+        to = t;
+        weight = w;
+        index = idx;
+        del = false;
+    }
+    bool operator <(const Edge& e)const{
+        return weight > e.weight;
+    }
+    bool operator ==(const Edge& e)const{ 
+        return ( from == e.from && to == e.to && weight == e.weight );
+    }
+};
+//disjoint set union template
+struct DisjointSet{
+    vi ranks;
+    vi parent;
+    DisjointSet(int n){
+        ranks.resize(n, 0);
+        parent.resize(n);
+        for( int i = 0; i < n; i++) parent[i] = i;
+    }
+    int findSet(int v){
+        return parent[v] = ((parent[v] == v)? v: findSet(parent[v]));
+    }
+    bool unionSet(int u, int v){
+        int x = findSet(u);
+        int y = findSet(v);
+        if( x == y ) return false;
+        if( ranks[x] == ranks[y] ) ranks[x]++;
+        if( ranks[x] > ranks[y] ){
+            parent[y] = x;
+        }
+        else parent[x] = y;
+        return true;
+    }
+
+};
+//function to get the MST, its cost and edges included
+pair<int, vector < Edge > > getMST(int n, vector< Edge > edges){
+    int cost = 0;
+    priority_queue< Edge > q;
+    vector < Edge > res;
+
+    DisjointSet djSet(n);
+    for( int i = 0; i < edges.size(); i++ ){
+        if( !edges[i].del )q.push(edges[i]);
+    }
+    while( !q.empty() ){ 
+        Edge curE = q.top();
+        q.pop();
+        if( djSet.unionSet(curE.from, curE.to) ){ 
+            cost += curE.weight;
+            res.push_back(curE);
+        }
+    }
+    if( res.size() != n-1 ) return make_pair(inf, vector< Edge >());
+    return make_pair(cost, res);
+}
 
 template <class A, class B>
 auto findMin(A a, B b) -> decltype(a < b ? a : b)
@@ -109,109 +187,54 @@ void file_i_o(){
 //===========================Template Ends==================================
 
 ll modd = 1000000009;
-int n, m;
-int u, v, wt;
-vector<pair<int , pii> >wtEdges;
-
-struct Edge{
-    int from, to, weight, index;
-    bool del;
-    Edge(int f, int t, int w, int idx){ 
-        from = f;
-        to = t;
-        weight = w;
-        index = idx;
-        del = false;
+int n, id, m;
+vpii arr;
+            
+void run_case(){
+    cin >> n;
+    arr.resize(n);
+    loop(i, 0, n){
+        cin >> arr[i].ff >> arr[i].ss;
     }
-    bool operator <(const Edge& e)const{
-        return weight > e.weight;
+    stable_sort(all(arr), [](pii a, pii b)->bool{
+            return a.ss > b.ss;
+            });
+    //using count sort
+    // vi bucket(101, 0);
+    // for( auto x : arr ){
+    //     bucket[x.ss]++;
+    // }
+    // vi pos(n+1);
+    // pos[0] = 0;
+    // for( int i = 1; i < n+1; i++ ){
+    //     pos[i] = pos[i-1] + bucket[i-1];
+    // }
+    // vpii newarr(n);
+    // for( auto x : arr ){
+    //     int ind = x.ss;
+    //     newarr[pos[ind]] = x;
+    //     pos[ind]++;
+    // }
+    // reverse(all(newarr));
+    loop(i, 0, n){
+        cout << arr[i].ff << " " << arr[i].ss << endl;
     }
-    bool operator ==(const Edge& e)const{ 
-        return ( from == e.from && to == e.to && weight == e.weight );
-    }
-};
-
-struct DisjointSet{
-    vi ranks;
-    vi parent;
-    DisjointSet(int n){
-        ranks.resize(n, 0);
-        parent.resize(n);
-        for( int i = 0; i < n; i++) parent[i] = i;
-    }
-    int findSet(int v){
-        return parent[v] = ((parent[v] == v)? v: findSet(parent[v]));
-    }
-    bool unionSet(int u, int v){
-        int x = findSet(u);
-        int y = findSet(v);
-        if( x == y ) return false;
-        if( ranks[x] == ranks[y] ) ranks[x]++;
-        if( ranks[x] > ranks[y] ){
-            parent[y] = x;
-        }
-        else parent[x] = y;
-        return true;
-    }
-
-};
-
-pair<int, vector < Edge > > getMST(int n, vector< Edge > edges){
-    int cost = 0;
-    priority_queue< Edge > q;
-    vector < Edge > res;
-
-    DisjointSet djSet(n);
-    for( int i = 0; i < edges.size(); i++ ){
-        if( !edges[i].del )q.push(edges[i]);
-    }
-    while( !q.empty() ){ 
-        Edge curE = q.top();
-        q.pop();
-        if( djSet.unionSet(curE.from, curE.to) ){ 
-            cost += curE.weight;
-            res.push_back(curE);
-        }
-    }
-    if( res.size() != n-1 ) return make_pair(inf, vector< Edge >());
-    return make_pair(cost, res);
-}
-
-void prepareMSTlist(int n, int e){
-    int a, b, w;
-    vector< Edge > edges;
-    for( int i = 0; i < e; i++ ){ 
-        cin >> a >> b >> w;
-        a--; b--;
-        edges.pb(Edge(a,b,w,i));
-    }
-    pair< int, vector < Edge > > res = getMST(n, edges);
-    llt secondMincost = inf;
-    for( int i = 0; i < res.second.size(); i++ ){
-        edges[res.second[i].index].del = true;
-        pair< int, vector < Edge > > res2 = getMST(n, edges);
-        secondMincost = ( res2.first < secondMincost ) ? res2.first : secondMincost;
-        edges[res.second[i].index].del = false;
-    }
-    cout << res.first << " " << secondMincost << endl;
 }
 
 int main(){
     clock_t begin = clock();
     // sieve(P_MAX);
     file_i_o();
-    // int tests = 1;
-    int tests;
-    cin >> tests;
+    int tests = 1;
+    // int tests;
+    // cin >> tests;
 
-    while(tests-- > 0){
-        cin >> n >> m;
-        prepareMSTlist(n, m);
-    }
+    while(tests-- > 0)
+        run_case();
 
     #ifndef ONLINE_JUDGE
     clock_t end = clock();
-        cout << "\nExecuted In: " << double(end - begin) /CLOCKS_PER_SEC << " seconds" << endl;
+        cout << "\n\nExecuted In: " << double(end - begin) /CLOCKS_PER_SEC << " seconds" << endl;
     #endif
     return 0;
 }

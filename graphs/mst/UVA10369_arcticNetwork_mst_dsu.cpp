@@ -108,92 +108,72 @@ void file_i_o(){
 
 //===========================Template Ends==================================
 
-ll modd = 1000000009;
 int n, m;
-int u, v, wt;
-vector<pair<int , pii> >wtEdges;
+// vector<pii> oldedge;
+vi parents;
+vi rankk;
+vector<pair<double , pair<float, float>> >wtEdges;
+// vector<pair<pii, int> > wtEdges;
+vector<pair<float, float>> townPositions;
 
-struct Edge{
-    int from, to, weight, index;
-    bool del;
-    Edge(int f, int t, int w, int idx){ 
-        from = f;
-        to = t;
-        weight = w;
-        index = idx;
-        del = false;
-    }
-    bool operator <(const Edge& e)const{
-        return weight > e.weight;
-    }
-    bool operator ==(const Edge& e)const{ 
-        return ( from == e.from && to == e.to && weight == e.weight );
-    }
-};
-
-struct DisjointSet{
-    vi ranks;
-    vi parent;
-    DisjointSet(int n){
-        ranks.resize(n, 0);
-        parent.resize(n);
-        for( int i = 0; i < n; i++) parent[i] = i;
-    }
-    int findSet(int v){
-        return parent[v] = ((parent[v] == v)? v: findSet(parent[v]));
-    }
-    bool unionSet(int u, int v){
-        int x = findSet(u);
-        int y = findSet(v);
-        if( x == y ) return false;
-        if( ranks[x] == ranks[y] ) ranks[x]++;
-        if( ranks[x] > ranks[y] ){
-            parent[y] = x;
-        }
-        else parent[x] = y;
-        return true;
-    }
-
-};
-
-pair<int, vector < Edge > > getMST(int n, vector< Edge > edges){
-    int cost = 0;
-    priority_queue< Edge > q;
-    vector < Edge > res;
-
-    DisjointSet djSet(n);
-    for( int i = 0; i < edges.size(); i++ ){
-        if( !edges[i].del )q.push(edges[i]);
-    }
-    while( !q.empty() ){ 
-        Edge curE = q.top();
-        q.pop();
-        if( djSet.unionSet(curE.from, curE.to) ){ 
-            cost += curE.weight;
-            res.push_back(curE);
-        }
-    }
-    if( res.size() != n-1 ) return make_pair(inf, vector< Edge >());
-    return make_pair(cost, res);
+int findSet(int v){
+    return parents[v] = ((parents[v] == v)? v: findSet(parents[v]));
 }
 
-void prepareMSTlist(int n, int e){
-    int a, b, w;
-    vector< Edge > edges;
-    for( int i = 0; i < e; i++ ){ 
-        cin >> a >> b >> w;
-        a--; b--;
-        edges.pb(Edge(a,b,w,i));
+void union_(int u, int v){
+    int x = findSet(u);
+    int y = findSet(v);
+    if( rankk[x] == rankk[y] ) rankk[x]++;
+    if( rankk[x] > rankk[y] ){
+        parents[y] = x;
     }
-    pair< int, vector < Edge > > res = getMST(n, edges);
-    llt secondMincost = inf;
-    for( int i = 0; i < res.second.size(); i++ ){
-        edges[res.second[i].index].del = true;
-        pair< int, vector < Edge > > res2 = getMST(n, edges);
-        secondMincost = ( res2.first < secondMincost ) ? res2.first : secondMincost;
-        edges[res.second[i].index].del = false;
+    else parents[x] = y;
+}
+
+double evalDist(pii a, pii b){
+    double x = abs(a.ff - b.ff);
+    double y = abs(a.ss - b.ss);
+    double ans = sqrt(double(x*x+ y*y));
+    return ans;
+}
+
+void evalCartesianDistBtwEachTown(){
+    loop(i, 1, m+1){
+        for( int j = i+1; j < m+1; j++){
+            wtEdges.pb({evalDist(townPositions[i], townPositions[j]),{i, j}});
+        }
     }
-    cout << res.first << " " << secondMincost << endl;
+}
+            
+void run_case(){
+    cin >> n >> m;
+    parents.resize(m+1);
+    rankk.resize(m+1);
+    townPositions.resize(m+1);
+    loop(i, 1, m+1){
+        float x, y;
+        cin >> x >> y;
+        townPositions[i] = {x, y};
+    }
+    wtEdges.clear();
+    evalCartesianDistBtwEachTown();
+    sort(all(wtEdges));
+    int i, j;
+    loop(i, 1, m+1){
+        parents[i] = i;
+        rankk[i] = 1;
+    }
+    double ans = -inf;
+    int kd = m;
+    for( int k=0; k < sz(wtEdges) && kd != n; k++ ){
+        tie(i, j) = wtEdges[k].ss;
+        if( findSet(i) != findSet(j) ){
+            union_(i, j);
+            ans = wtEdges[k].ff;
+            kd--;
+        }
+    }
+    cout <<fixed << setprecision(2) << (ans) << endl;
 }
 
 int main(){
@@ -205,13 +185,12 @@ int main(){
     cin >> tests;
 
     while(tests-- > 0){
-        cin >> n >> m;
-        prepareMSTlist(n, m);
+        run_case();
     }
 
     #ifndef ONLINE_JUDGE
     clock_t end = clock();
-        cout << "\nExecuted In: " << double(end - begin) /CLOCKS_PER_SEC << " seconds" << endl;
+        cout << "Executed In: " << double(end - begin) /CLOCKS_PER_SEC << " seconds" << endl;
     #endif
     return 0;
 }

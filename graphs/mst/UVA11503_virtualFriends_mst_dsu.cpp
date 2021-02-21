@@ -32,17 +32,19 @@ using namespace std;
     loop(i, a, n){loop(j, b, m){cerr << dp[i][j] << " ";}cerr << endl;} 
 #define countetbits(i)\
     __builtin_popcount(i)
+typedef pair< ll,ll > pll;
+typedef pair< int, int> pii;
 
 typedef vector< long long int > vl;
 typedef vector< int > vi;
+typedef vector< pii > vpii;
+typedef vector< pll > vpll;
 typedef vector< string > vs;
 typedef vector< double > vd;
 
 typedef vector< vi > vvi;
 typedef vector< vl > vvl;
 
-typedef pair< ll,ll > pll;
-typedef pair< int, int> pii;
 
 //sieve of eratosthenes 
 vector<int> smallest_factor;
@@ -84,7 +86,19 @@ ll lcm(ll a, ll b)
 
     return temp ? (a / temp * b) : 0;
 }
-
+// Returns first i in [l, r] s.t. predicate(i) is true. Never evaluates r.
+template <typename I, typename P> I binarysearch(const P &predicate, I l, I r) {
+    l--;
+    while (r - l > 1) {
+        auto mid = l + (r - l) / 2;
+        if (predicate(mid))
+            r = mid;
+        else
+            l = mid;
+    }
+    return r;
+}
+//MST template
 template <class A, class B>
 auto findMin(A a, B b) -> decltype(a < b ? a : b)
 {
@@ -109,89 +123,52 @@ void file_i_o(){
 //===========================Template Ends==================================
 
 ll modd = 1000000009;
-int n, m;
-int u, v, wt;
-// vector<pii> oldedge;
-vi parents;
-// vector<pii> highways;
-vi rankk;
-vector<pair<int , pii> >wtEdges;
-ll ans1 = 0, ans2 = 0;
+int n, k, q;
+vector<pair<string, string>> edges;
+map<string, string> parent;
+map<string, int> ranks;
 
-int findSet(int v){
-    return parents[v] = ((parents[v] == v)? v: findSet(parents[v]));
+string findSet(string v){
+    return parent[v] = ((parent[v] == v)? v: findSet(parent[v]));
 }
 
-void union_(int u, int v){
-    int x = findSet(u);
-    int y = findSet(v);
-    if( rankk[x] == rankk[y] ) rankk[x]++;
-    if( rankk[x] > rankk[y] ){
-        parents[y] = x;
+bool unionSet(string u, string v){
+    string x = findSet(u);
+    string y = findSet(v);
+    if( x == y ) return false;
+    // if( ranks[x] == ranks[y] ) ranks[x]++;
+    if( ranks[x] >= ranks[y] ){
+        ranks[x] += ranks[y];
+        parent[y] = x;
     }
-    else parents[x] = y;
+    else{ 
+        parent[x] = y;
+        ranks[y] += ranks[x];
+    }
+    return true;
 }
-
-
+            
 void run_case(){
-    cin >> n >> m;
-    parents.resize(n+1);
-    rankk.resize(n+1);
-    wtEdges.resize(m);
-    loop(i, 1, n+1){
-        parents[i] = i;
-        rankk[i] = 1;
-    }
-    loop(i, 0, m){
-        cin >> u >> v >> wt;
-        wtEdges[i].ff = wt;
-        wtEdges[i].ss = {u, v};
-    }
-    ans1 = 0;
-    ans2 = inf;
-    sort(all(wtEdges));
-    loop(i, 0, m){
-        tie(u, v) = wtEdges[i].ss;
-        wt = wtEdges[i].ff;
-        if( findSet(u) != findSet(v) ){
-            union_(u, v);
-            ans1 += wt;
+    cin >> n;
+    string a, b;
+    parent.clear();
+    ranks.clear();
+    edges.clear();
+    map<string, int > mp;
+    loop(j, 0, n){
+        cin >> a >> b;
+        if( parent.count(a) == 0 ){
+            parent[a] = a;
+            ranks[a] = 1;
         }
-    }
-    loop(i, 1, n+1){
-        parents[i] = i;
-        rankk[i] = 1;
-    }
-    vl allmsts;
-    loop(j, 1, m){
-        bool ismst = true;
-        loop(i, 1, n+1){
-            parents[i] = i;
-            rankk[i] = 1;
+        if( parent.count(b) == 0 ){
+            parent[b] = b;
+            ranks[b] = 1;
         }
-        ll an = 0;
-        loop(i, 0, m){
-            if( i == j ) i++;
-            tie(u, v) = wtEdges[i].ss;
-            wt = wtEdges[i].ff;
-            if( findSet(u) != findSet(v) ){
-                union_(u, v);
-                an += wt;
-            }
-        }
-        loop(i, 1,  n){
-            if( findSet(i) != findSet(i+1) ){
-                ismst = false;
-                break;
-            }
-        }
-        if( ismst ) allmsts.pb(an);
-    }
-    sort(all(allmsts));
-    cout << ans1 << endl;
-    cout << allmsts[1] << endl;
-    loop(i, 0, sz(allmsts)){
-        cerr << allmsts[i] << endl;
+        unionSet(a ,b);
+        string p = findSet(a);
+        string q = findSet(b);
+        cout << max(ranks[p],ranks[q]) << endl;
     }
 }
 
@@ -203,14 +180,12 @@ int main(){
     int tests;
     cin >> tests;
 
-    while(tests-- > 0){
+    while(tests-- > 0)
         run_case();
-        if( tests != 1 ) cout << endl;
-    }
 
     #ifndef ONLINE_JUDGE
     clock_t end = clock();
-        cout << "Executed In: " << double(end - begin) /CLOCKS_PER_SEC << " seconds" << endl;
+        cout << "\n\nExecuted In: " << double(end - begin) /CLOCKS_PER_SEC << " seconds" << endl;
     #endif
     return 0;
 }
@@ -219,4 +194,3 @@ int main(){
 //1. input for test
 //2. look for type conversion, char to int
 //3. look for declaration of large arrays.
-
