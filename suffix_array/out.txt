@@ -1,0 +1,14 @@
+aabba#baba
+Substrig starting at 0 #baba
+Substrig starting at 1 a#baba
+Substrig starting at 2 a
+Substrig starting at 3 aabba#baba
+Substrig starting at 4 aba
+Substrig starting at 5 abba#baba
+Substrig starting at 6 ba#baba
+Substrig starting at 7 ba
+Substrig starting at 8 baba
+Substrig starting at 9 bba#baba
+
+
+Executed In: 0.000167 seconds

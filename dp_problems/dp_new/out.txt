@@ -1,0 +1,5 @@
+The minimum cutting is 200.
+The minimum cutting is 22.
+
+
+Executed In: 0.000173 seconds

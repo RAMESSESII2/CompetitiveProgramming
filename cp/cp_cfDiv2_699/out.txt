@@ -1,0 +1,13 @@
+YES
+1 
+YES
+5 3 
+YES
+3 3 3 
+YES
+1 2 9 5 9 
+NO
+NO
+
+
+Executed In: 0.000205 seconds
