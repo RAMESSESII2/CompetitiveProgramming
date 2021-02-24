@@ -1,279 +1,41 @@
-k k l k k 
-k l o l k 
-k l l l k 
-k k k k k 
-0 0
+i: 0 pos: 0
+temp[pos]:  -7temp_id[pos]: 0 p[i]: -1
+l: 1  l_end: 0
 
-o 
-a a a a a a 
-b b a a a b 
-a a a a b b 
-a b a a b a 
-a b b a a a 
-a b b a a o 
-1 0
+i: 1 pos: 1
+temp[pos]:  10temp_id[pos]: 1 p[i]: 0
+l: 2  l_end: 1
 
-3 1
+i: 2 pos: 1
+temp[pos]:  9temp_id[pos]: 2 p[i]: 0
+l: 2  l_end: 2
 
-a a a a a a 
-a a a a a a 
-a a a a a a 
-a b a a a a 
-a b b a a a 
-a b b a o a 
-3 1
+i: 3 pos: 1
+temp[pos]:  2temp_id[pos]: 3 p[i]: 0
+l: 2  l_end: 3
 
-a b a a a b 
-b b a a a b 
-a a a a a b 
-a b a a a a 
-a b b a a a 
-a b b a o a 
-0 1
+i: 4 pos: 2
+temp[pos]:  3temp_id[pos]: 4 p[i]: 3
+l: 3  l_end: 4
 
-3 1
+i: 5 pos: 3
+temp[pos]:  8temp_id[pos]: 5 p[i]: 4
+l: 4  l_end: 5
 
-, , , , , , 
-, , , , , , 
-, , , , , , 
-, , , o , , 
-, , , , , , 
-, , , , , , 
-- - 6 6 - - 
-- - 6 6 - - 
-- - o 6 - - 
-- - 6 6 - - 
-- - 6 6 - - 
-- - 6 6 - - 
-- - 7 7 - - 
-- - - - - - 
-- - o 6 - - 
-- - 6 6 - - 
-- - - - - - 
-- - 7 7 - - 
-0 2
+i: 6 pos: 3
+temp[pos]:  8temp_id[pos]: 6 p[i]: 4
+l: 4  l_end: 6
 
-5 2
+i: 7 pos: 3
+temp[pos]:  6temp_id[pos]: 7 p[i]: 4
+l: 4  l_end: 7
 
-o v v v v v v v v v v v v v v v v v v v 
-v v v v v v v v v v v v v v v v v v v v 
-v v v v v v v v v v v v v v v v v v v v 
-q q q q q q q q q q q q q q q q q q q q 
-v v v v v v v v v v v v v v v v v v v v 
-v v v v v v v v v v v v v v v v v v v v 
-v v v v v v v v v v v v v v v v v v v v 
-v v v v v v v v v v v v v v v v v v v v 
-v v v v v v v v v v v v v v v v v v v v 
-q q q q q q q q q q q q q q q q q q q q 
-v v v v v v v v q v v v v v v v v v v v 
-v v v v v v v v q v v v v v v v v v v v 
-v v v v v v v v q V v V v v v v v v v v 
-v v v v v v v v q v v v v v v v v v v v 
-v v v v v v v V q v v v v v v v v v v v 
-q q q q q q q q q q q q q q q q q q q q 
-v v v v v v v v v v v v v v v v v v v q 
-v v v v v v v v v v v v v v v v v v v q 
-v v v v v v v v v v v v v v v v v v v q 
-v v v v v v v v v v v v v v v v v v v q 
-3 0
-
-9 0
-
-o 
-o 
-o @ 
-@ @ 
-w o 
-? ? 
-o @ 
-@ w 
-1 1
-
-~ q q q q q q q q q q q q q q q q q q ~ 
-q q q q q q q q q q q q q q q q q q q q 
-o q q q q q q q q q q q q q q q q q q } 
-q q q q q q q q q q q q q q q q q q q q 
-q q q q q q q q q q q q q q q q q q q q 
-q q q q q q q q q q q q q q q q q q q q 
-q q q q q q q q q q q q q q q q q q q q 
-q q q q q q q q q q q q q q q q q q q q 
-q q q q q q q q q q q q q q q q q q q q 
-q q q q q q q q q q q q q q q q q q q q 
-q q q q q q q q q q q q q q q q q q q q 
-q q q q q q q q q q q q q q q q q q q q 
-q q q q q q q q q q q q q q q q q q q q 
-q q q q q q q q q q q q q q q q q q q q 
-q q q q q q q q q q q q q q q q q q q q 
-q q q q q q q q q q q q q q q q q q q q 
-q q q q q q q q q q q q q q q q q q q q 
-q q q q q q q q q q q q q q q q q q q q 
-q q q q q q q q q q q q q q q q q q q q 
-~ q q q q q q q q q q q q q q q q q q ~ 
-0 0
-
-19 0
-
-@ @ q q q q q q q q q q q q q q q q q q 
-q q q q q q q q q q q q q q q q q q q q 
-q q q q q q q q q q q q q q q q q q q q 
-q q q q q q q q q q q q q q q q q q q q 
-q q q q q q q q q q q q q q q q q q q q 
-q q q q q q q q q q q q q q q q q q q q 
-q q q q q q q q q q q q q q q q q q q q 
-q q q q q q q q q q q q q q q q q q q q 
-q q q q q q q q q q q q q q q q q q q q 
-q q q q q q q q @ q q q @ q q q q q q q 
-q q q q q q q q q ? o ? q q q q q q q q 
-q q q q q q q q q ? ? ? q q q q q q q q 
-q q q q q q q q q ? ? ? q q q q q q q q 
-q q q q q q q q @ q q q @ q q q q q q q 
-@ q q q q q q @ q q @ q q @ q q q q q @ 
-q q q q q q q q q q q q q q q q q q q @ 
-q q q q q q q q q q @ q q q q q q q q q 
-q q q q q q q q q q @ q q q q q q q q q 
-q q q q q q q q q q q q q q q q q q q q 
-@ @ q q q q q q q q q q q q q q q q q q 
-0 0
-
-9 8
-
-9 12
-
-13 8
-
-13 12
-
-14 0
-
-14 7
-
-14 10
-
-14 13
-
-16 10
-
-19 0
-
-q q q q q q q q q q q q q q q q q q q q 
-q q q q q q q q q q q q q q q q q q q q 
-q q q q q q q q q q V V V V V V V V V V 
-q q q q q q q q q q V V V V V V V V V q 
-q q q q q q q q q q q q q q q q q q q q 
-q q q q q q q q q q q q q q q q q q q q 
-q q q q q q q q q q q q q q q q q q q q 
-q q q q q q q q q q U q q q q q q q q q 
-q q q q q q q q q q U q q q q q q q q q 
-q q q q q q q q q q U q q q q q q q q q 
-q q q q q q q q q q o q q q q q q q q q 
-U q q q q q q q q q U U U U U U U U U U 
-q q q q q q q q q q U q q q q q q q q q 
-V V V V V V q q q q U q q q q q q q q q 
-v v v q q q q q q q q q q q q v V V V V 
-q v v V q q q q q q q q q q q q q q q q 
-v V V q q q q q q q q q q q V V V V V q 
-q q q q q q q q q q q q q q q q q q q q 
-q q q q q q q q q q q q q q q q q q q q 
-q q q q q q q q q q q q q q q q q q q q 
-2 10
-
-13 0
-
-14 16
-
-15 3
-
-16 1
-
-16 14
-
-w w w w w 
-w w k o w 
-w w w w w 
-w l l w w 
-w w w w w 
-3 1
-
-l w w w w 
-w k k w w 
-k w o k k 
-w w w k w 
-w l l w w 
-0 0
-
-4 1
-
-w w w w w 
-w @ @ @ w 
-w w w w w 
-w w w w w 
-w w ? ? ? 
-o w w w ? 
-w w w w ? 
-1 1
-
-o o o o o 
-o o i i i 
-i i i i i 
-n i i n n 
-n n n n n 
-0 0
-
-v o l l v v 
-l l l l v v 
-v v v v v v 
-l l v l l l 
-l l v l l l 
-v v v v v v 
-w y y y w w 
-w w w y w w 
-w w y o w w 
-z w w w w z 
-w w w w w w 
-w w w w z z 
-3 0
-
-5 4
-
-w w M w w w 
-w w w w w w 
-w w w w M w 
-M w w w w M 
-w w w w w w 
-w w w o w w 
-0 2
-
-2 4
-
-3 0
-
-- - - 
-- o - 
-- - - 
-o , , 
-, , , 
-, , , 
-o - - - k k 
-- - - - - - 
-- - - - - - 
-- - - - - - 
-- - l - - - 
-- - - - - - 
-4 2
-
-- - - - l - 
-l - - - l - 
-l - - - - - 
-- - - - - - 
-- - o - - - 
-- - - - - - 
-0 4
-
-1 0
-
-o - - 
-- - - 
-- - - 
-o , , 
-, , , 
-, , , 
+-7  0 -1
+2  3 0
+3  4 0
+6  7 0
+0  0 3
+0  0 4
+0  0 4
+0  0 4
+0  0 0

@@ -82,9 +82,6 @@ void printt(int end) {
     printt(P[end]);
     printf("%d\n", A[end]);
 }
-
-
-
 void run_case(){
     int L = 0, L_end = 0;
     for(int i = 0;; i++) {
