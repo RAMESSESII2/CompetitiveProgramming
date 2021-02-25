@@ -188,20 +188,16 @@ void file_i_o(){
 
 ll modd = 1000000009;
 ll p;
-double a, b, c;
+ll a, b, c;
             
 void run_case(){
     cin >> p >> a >> b >> c;
-    if( p <= a && p <= b && p <= c ){
-        ll ans = min({(a - p), (b - p), (c - p)});
-        cout << ans << endl;
+    if( p%a == 0 || p%b==0 || p%c == 0 ){
+        cout << 0 << endl;
         return;
     }
-    ll bya = ceil(p/a);
-    ll byb = ceil(p/b);
-    ll byc = ceil(p/c);
-    cerr << bya << " " << byb << " " << byc << endl;
-    ll ans = min({(bya*a - p), (byb*b - p), (byc*c - p)});
+    // cerr << bya << " " << byb << " " << byc << endl;
+    ll ans = min({(a-p%a), (b-p%b), (c-p%c)});
     cout << ans << endl;
 }
 

@@ -27,7 +27,7 @@ using namespace std;
         (find(all(container),element) != container.end())
 
 #define print(dp, n); \
-    loop(i, 0, n){cout << dp[i] << " ";}cout << endl; 
+    loop(i, 0, n){cerr << dp[i] << " ";}cerr << endl; 
 #define print2(dp, a, n, b, m); \
     loop(i, a, n){loop(j, b, m){cerr << dp[i][j] << " ";}cerr << endl;} 
 #define countetbits(i)\
@@ -188,28 +188,36 @@ void file_i_o(){
 
 ll modd = 1000000009;
 int n;
-vi pos;
-vi arr;
-// vi ans;
+vector<pii> arr;
+vi ans;
             
 void run_case(){
     cin >> n;
-    pos.resize(n+1);
     arr.resize(n);
-    loop(i, 0, n){ 
-        cin >> arr[i];
-        pos[arr[i]] = i;
+    loop(i, 0, n){
+        cin >> arr[i].ff;
+        arr[i].ss = i;
     }
-    int r = n;
-    for( int x = n; x > 0; x-- ){ 
-        if( pos[x] >= r ) continue;
-        for( int i = pos[x]; i < r; i++ ){
-            cout << arr[i] << " ";
-        }
-        r = pos[x];
+    stable_sort(allr(arr), [](pii a, pii b)->bool{ 
+            if( a.ff == b.ff ) return a.ss > b.ss;
+            return a.ff < b.ff;
+            });
+    // reverse(all(arr));
+    // loop(i, 0, n){
+    //     cerr << arr[i].ff << " " << arr[i].ss << " " ;
+    // }
+    // cerr << endl;
+    ans.resize(n);
+    // ans[arr[0].ss] = 1;
+    int prev = 0;
+    for( int i = 0; i < n; i++){
+        ans[arr[i].ss] = prev + 1;
+        prev = ans[arr[i].ss];
+    }
+    loop(i, 0, n){
+        cout << ans[i] << " ";
     }
     cout << endl;
-
 }
 
 int main(){

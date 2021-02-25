@@ -27,7 +27,7 @@ using namespace std;
         (find(all(container),element) != container.end())
 
 #define print(dp, n); \
-    loop(i, 0, n){cout << dp[i] << " ";}cout << endl; 
+    loop(i, 0, n){cerr << dp[i] << " ";}cerr << endl; 
 #define print2(dp, a, n, b, m); \
     loop(i, a, n){loop(j, b, m){cerr << dp[i][j] << " ";}cerr << endl;} 
 #define countetbits(i)\
@@ -187,29 +187,36 @@ void file_i_o(){
 //===========================Template Ends==================================
 
 ll modd = 1000000009;
-int n;
-vi pos;
-vi arr;
-// vi ans;
+int n, k, q;
+vpii priceWtpairs;
+ll dp[1005][35];
+
+ll recurse(int wt, int i){ 
+    if( i == n || wt <= 0) return 0;
+    ll &ans = dp[i][wt];
+    if( ans != -1 ) return ans;
+    if( wt - priceWtpairs[i].ff >= 0 ){
+    ans = max(recurse(wt-priceWtpairs[i].ff, i+1)+ priceWtpairs[i].ss, recurse(wt, i+1));
+    }
+    else ans = max(ans,recurse(wt, i+1));
+    return ans;
+}
             
 void run_case(){
     cin >> n;
-    pos.resize(n+1);
-    arr.resize(n);
+    priceWtpairs.resize(n);
     loop(i, 0, n){ 
-        cin >> arr[i];
-        pos[arr[i]] = i;
+        cin >> priceWtpairs[i].ss >> priceWtpairs[i].ff;
     }
-    int r = n;
-    for( int x = n; x > 0; x-- ){ 
-        if( pos[x] >= r ) continue;
-        for( int i = pos[x]; i < r; i++ ){
-            cout << arr[i] << " ";
-        }
-        r = pos[x];
+    cin >> k;
+    int wt;
+    ll fin = 0;
+    loop(i, 0, k){
+        cin >> wt;
+        memset(dp, -1,sizeof dp);
+        fin += recurse(wt, 0);
     }
-    cout << endl;
-
+    cout << fin << endl;
 }
 
 int main(){

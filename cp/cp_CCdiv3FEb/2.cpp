@@ -27,7 +27,7 @@ using namespace std;
         (find(all(container),element) != container.end())
 
 #define print(dp, n); \
-    loop(i, 0, n){cout << dp[i] << " ";}cout << endl; 
+    loop(i, 0, n){cerr << dp[i] << " ";}cerr << endl; 
 #define print2(dp, a, n, b, m); \
     loop(i, a, n){loop(j, b, m){cerr << dp[i][j] << " ";}cerr << endl;} 
 #define countetbits(i)\
@@ -187,29 +187,17 @@ void file_i_o(){
 //===========================Template Ends==================================
 
 ll modd = 1000000009;
-int n;
-vi pos;
-vi arr;
-// vi ans;
+int m, h;
+ll dp[100005];
             
 void run_case(){
-    cin >> n;
-    pos.resize(n+1);
-    arr.resize(n);
-    loop(i, 0, n){ 
-        cin >> arr[i];
-        pos[arr[i]] = i;
-    }
-    int r = n;
-    for( int x = n; x > 0; x-- ){ 
-        if( pos[x] >= r ) continue;
-        for( int i = pos[x]; i < r; i++ ){
-            cout << arr[i] << " ";
-        }
-        r = pos[x];
-    }
+    cin >> m >> h;
+    int res = m/(h*h);
+    if( res <= 18 ) cout << 1;
+    else if( res > 18 && res <= 24 ) cout << 2;
+    else if ( res >= 30 ) cout << 4;
+    else cout << 3;
     cout << endl;
-
 }
 
 int main(){

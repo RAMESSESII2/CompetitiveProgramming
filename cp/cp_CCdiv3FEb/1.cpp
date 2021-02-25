@@ -27,7 +27,7 @@ using namespace std;
         (find(all(container),element) != container.end())
 
 #define print(dp, n); \
-    loop(i, 0, n){cout << dp[i] << " ";}cout << endl; 
+    loop(i, 0, n){cerr << dp[i] << " ";}cerr << endl; 
 #define print2(dp, a, n, b, m); \
     loop(i, a, n){loop(j, b, m){cerr << dp[i][j] << " ";}cerr << endl;} 
 #define countetbits(i)\
@@ -187,29 +187,30 @@ void file_i_o(){
 //===========================Template Ends==================================
 
 ll modd = 1000000009;
-int n;
-vi pos;
-vi arr;
-// vi ans;
+int n, m, q, k;
+vi points;
+// vector<char> carr;
             
 void run_case(){
-    cin >> n;
-    pos.resize(n+1);
-    arr.resize(n);
-    loop(i, 0, n){ 
-        cin >> arr[i];
-        pos[arr[i]] = i;
+    cin >> n >> k;
+    points.resize(k);
+    loop(i, 0, k){
+        cin >> points[i];
     }
-    int r = n;
-    for( int x = n; x > 0; x-- ){ 
-        if( pos[x] >= r ) continue;
-        for( int i = pos[x]; i < r; i++ ){
-            cout << arr[i] << " ";
+    // print(points, k);
+    string s;
+    loop(i, 0, n){
+        cin >> s;
+        int t = 0;
+        ll ans = 0;
+        for( auto x: s ){
+            assert(t < k);
+            // cerr << x << " ";
+            ans += ( x-'0' )*points[t];
+            t++;
         }
-        r = pos[x];
+        cout << ans << endl;
     }
-    cout << endl;
-
 }
 
 int main(){

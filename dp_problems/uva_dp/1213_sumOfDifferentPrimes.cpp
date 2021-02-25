@@ -1,8 +1,9 @@
 //====================Template==================
 #include <bits/stdc++.h>
-/* #include <boost/lexical_cast.hpp> // for lexical_cast() */ 
+// #include <boost/lexical_cast.hpp> // for lexical_cast() 
 using namespace std;
 
+#define endl            '\n' 
 #define ll              long long int
 #define ld              long double
 #define mod             1000000007
@@ -26,28 +27,30 @@ using namespace std;
         (find(all(container),element) != container.end())
 
 #define print(dp, n); \
-    loop(i, 0, n){cout << dp[i] << " ";}cout << endl; 
+    loop(i, 0, n){cerr << dp[i] << " ";}cerr << endl; 
 #define print2(dp, a, n, b, m); \
-    loop(i, a, n){loop(j, b, m){cout << dp[i][j] << " ";}cout << endl;} 
+    loop(i, a, n){loop(j, b, m){cerr << dp[i][j] << " ";}cerr << endl;} 
 #define countetbits(i)\
     __builtin_popcount(i)
+typedef pair< ll,ll > pll;
+typedef pair< int, int> pii;
 
 typedef vector< long long int > vl;
 typedef vector< int > vi;
+typedef vector< pii > vpii;
+typedef vector< pll > vpll;
 typedef vector< string > vs;
 typedef vector< double > vd;
 
 typedef vector< vi > vvi;
 typedef vector< vl > vvl;
 
-typedef pair< ll,ll > pll;
-typedef pair< int, int> pii;
 
 //sieve of eratosthenes 
 vector<int> smallest_factor;
 vector<bool> prime;
 vector<int> primes;
-const int P_MAX = int(1200);
+const int P_MAX = 1124;
 void sieve(int maximum) {
     maximum = max(maximum, 1);
     smallest_factor.assign(maximum + 1, 0);
@@ -66,7 +69,7 @@ void sieve(int maximum) {
         }
 }
 
-/* __gcd(m, n) */
+// __gcd(m, n)
 ll gcd(ll a, ll b)
 {
     while (true)
@@ -82,6 +85,82 @@ ll lcm(ll a, ll b)
     ll temp = gcd(a, b);
 
     return temp ? (a / temp * b) : 0;
+}
+// Returns first i in [l, r] s.t. predicate(i) is true. Never evaluates r.
+template <typename I, typename P> I binarysearch(const P &predicate, I l, I r) {
+    l--;
+    while (r - l > 1) {
+        auto mid = l + (r - l) / 2;
+        if (predicate(mid))
+            r = mid;
+        else
+            l = mid;
+    }
+    return r;
+}
+//MST template
+struct Edge{
+    int from, to, weight, index;
+    bool del;
+    Edge(int f, int t, int w, int idx){ 
+        from = f;
+        to = t;
+        weight = w;
+        index = idx;
+        del = false;
+    }
+    bool operator <(const Edge& e)const{
+        return weight > e.weight;
+    }
+    bool operator ==(const Edge& e)const{ 
+        return ( from == e.from && to == e.to && weight == e.weight );
+    }
+};
+//disjoint set union template
+struct DisjointSet{
+    vi ranks;
+    vi parent;
+    DisjointSet(int n){
+        ranks.resize(n, 0);
+        parent.resize(n);
+        for( int i = 0; i < n; i++) parent[i] = i;
+    }
+    int findSet(int v){
+        return parent[v] = ((parent[v] == v)? v: findSet(parent[v]));
+    }
+    bool unionSet(int u, int v){
+        int x = findSet(u);
+        int y = findSet(v);
+        if( x == y ) return false;
+        if( ranks[x] == ranks[y] ) ranks[x]++;
+        if( ranks[x] > ranks[y] ){
+            parent[y] = x;
+        }
+        else parent[x] = y;
+        return true;
+    }
+
+};
+//function to get the MST, its cost and edges included
+pair<int, vector < Edge > > getMST(int n, vector< Edge > edges){
+    int cost = 0;
+    priority_queue< Edge > q;
+    vector < Edge > res;
+
+    DisjointSet djSet(n);
+    for( int i = 0; i < edges.size(); i++ ){
+        if( !edges[i].del )q.push(edges[i]);
+    }
+    while( !q.empty() ){ 
+        Edge curE = q.top();
+        q.pop();
+        if( djSet.unionSet(curE.from, curE.to) ){ 
+            cost += curE.weight;
+            res.push_back(curE);
+        }
+    }
+    if( res.size() != n-1 ) return make_pair(inf, vector< Edge >());
+    return make_pair(cost, res);
 }
 
 template <class A, class B>
@@ -99,32 +178,58 @@ void file_i_o(){
 #ifndef ONLINE_JUDGE
     freopen("in.txt", "r", stdin);
     freopen("out.txt", "w", stdout);
+    freopen("cerr.txt", "w", stderr);
 #endif
 }
 // lexical_cast() converts a int into string 
 //   string stri = boost::lexical_cast<string>(i_val);  
-ll n, k;
-ll dp[1130][15];
 
-void solve(){
-    int n = 1122;
-    int k = 15;
-    int i, j, c;
-    dp[0][0] = 1;
-    for(i = 0; i < sz(primes)-1; i++){
-        for(j = n; j >=primes[i] ; j--){
-            for(c = 1; c<=k; c++){
-                if( j-primes[i] >= 0 )
-                    dp[j][c] += dp[j-primes[i]][c-1];
-                else break;
-            }
+//===========================Template Ends==================================
+
+ll modd = 1000000009;
+int N = 1124;
+int K = 16;
+
+int dp[1124][16][350];
+
+int recurse( int n, int k, int ind ){ 
+    if( ind >= sz(primes)) return 0;
+    if( n == 0 ){ 
+        if( k == 0 ) return 1;  
+    }
+    if( k <= 0 || n <= 0) return 0;
+    int &ans = dp[n][k][ind];
+    if( ans != -1 ) return ans;
+    // for( int i = ind; i < sz(primes); i++){
+        ans =  recurse(n-primes[ind], k-1, ind+1) + recurse(n, k, ind+1);
+    // }
+    return ans;
+}
+
+/*iterative method for solving sum of different primes
+void solve()
+{
+    dp[0][0] = 1 ;
+    for(int i = 0 ; i < sz ; i++ ){
+        for( int j = 1120 ; j >= pr[i] ; j-- )
+            for(int  k = 1 ; k < 15 ; k++ ){
+                dp[j][k] += dp[ j - pr[i] ][k - 1];
         }
     }
 }
+*/
 
 void run_case(){
-    while( cin>> n >> k && (n !=0 && k!=0) ){
-        cout << dp[n][k] << endl;
+    int n, k;
+    memset(dp, -1, sizeof dp);
+    // loop(i, 1, 1125){ 
+    //     dp[i][1] = 1;
+    // }
+    // int temp = recurse(N, K, 0);
+    while( cin >> n && cin >> k  ){ 
+        if( n == 0 && k == 0 )break;
+        // cerr << n << " " <<k << endl;
+        cout << recurse(n, k, 0) << endl;
     }
 }
 
@@ -133,10 +238,8 @@ int main(){
     sieve(P_MAX);
     file_i_o();
     int tests = 1;
-    /* int tests; */
-    /* cin >> tests; */
-    memset(dp, 0, sizeof(dp));
-    solve();
+    // int tests;
+    // cin >> tests;
     while(tests-- > 0)
         run_case();
 
@@ -147,4 +250,7 @@ int main(){
     return 0;
 }
 
-
+//Debug
+//1. input for test
+//2. look for type conversion, char to int
+//3. look for declaration of large arrays.

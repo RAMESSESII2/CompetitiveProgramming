@@ -1,8 +1,15 @@
-SET 1:
-QUERY 1: 2
-QUERY 2: 9
-SET 2:
-QUERY 1: 1
+2
+3
+1
+0
+0
+2
+1
+0
+1
+55
+200102899
+2079324314
 
 
-Executed In: 0.026013 seconds
+Executed In: 0.08438 seconds
