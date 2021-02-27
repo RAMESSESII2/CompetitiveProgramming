@@ -49,18 +49,18 @@ typedef vector< vl > vvl;
 //sieve of eratosthenes 
 vector<int> smallest_factor;
 vector<bool> prime;
-vector<int> primes;
-const int P_MAX = int(1e5) + 5;
+// vector<int> primes;
+const int P_MAX = int(1e7) + 5;
 void sieve(int maximum) {
     maximum = max(maximum, 1);
     smallest_factor.assign(maximum + 1, 0);
     prime.assign(maximum + 1, true);
     prime[0] = prime[1] = false;
-    primes = {};
+    // primes = {};
     for (int p = 2; p <= maximum; p++)
         if (prime[p]) {
             smallest_factor[p] = p;
-            primes.push_back(p);
+            // primes.push_back(p);
             for (int64_t i = int64_t(p) * p; i <= maximum; i += p)
                 if (prime[i]) {
                     prime[i] = false;
@@ -191,7 +191,8 @@ int n, m, k, p, q;
 vi arr;
             
 void run_case(){
-    arr.resize(n);
+    cin >> n >> m;
+    cout <<  1000003 << endl;
 }
 
 int main(){
@@ -216,3 +217,4 @@ int main(){
 //1. input for test
 //2. look for type conversion, char to int
 //3. look for declaration of large arrays.
+

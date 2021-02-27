@@ -191,7 +191,18 @@ int n, m, k, p, q;
 vi arr;
             
 void run_case(){
+    cin >> n;
     arr.resize(n);
+    for( auto &x: arr ) cin >> x;
+    bool t = true;
+    loop(i, 0, n-1){
+        if( arr[i] < arr[i+1] ){
+            t = false;
+            break;
+        }
+    }
+    if( t ) cout << "NO\n";
+    else cout << "YES\n";
 }
 
 int main(){
@@ -216,3 +227,4 @@ int main(){
 //1. input for test
 //2. look for type conversion, char to int
 //3. look for declaration of large arrays.
+

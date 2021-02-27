@@ -187,11 +187,32 @@ void file_i_o(){
 //===========================Template Ends==================================
 
 ll modd = 1000000009;
-int n, m, k, p, q;
-vi arr;
+string s;
+map<char, int > mp;
             
 void run_case(){
-    arr.resize(n);
+    cin >> s;
+    mp.clear();
+    for( auto x : s ){
+        if( mp[x] >= 1 ){
+            mp[x]++;
+        }
+        else mp[x] = 1;
+    }
+    int count1 = 0;
+    int count2 = 0;
+    for( auto x: mp ){
+        // cerr << x.ff << " " << x.ss<< endl;
+        if( (x.ss & 1) == 0 ){
+            count2++;
+        }
+        if( x.ss == 1 )count1++;
+    }
+    cerr << count1 <<" " << count2 << endl;
+    if( count1 > count2 ){
+        cout << "NO\n";
+    }
+    else cout << "YES\n";
 }
 
 int main(){
@@ -216,3 +237,4 @@ int main(){
 //1. input for test
 //2. look for type conversion, char to int
 //3. look for declaration of large arrays.
+

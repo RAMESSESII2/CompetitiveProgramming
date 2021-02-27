@@ -188,10 +188,79 @@ void file_i_o(){
 
 ll modd = 1000000009;
 int n, m, k, p, q;
-vi arr;
+int u, v;
+int a, b;
+vvi graph;
+vi color;
+vi visited;
+
+bool dfs(int u, int c){
+    visited[u] = 1;
+    color[u] = c;
+    (c == 0)? b++: a++;
+    for( auto x : graph[u] ){
+        if( visited[x] == 0 ){
+            // if( color[x] == color[u] ){
+            //     return false;
+            // }
+            dfs(x, c^1);
+        }
+        else if ( color[x] == color[u] ){ 
+            return false;
+        }
+    }
+    return true;
+}
             
 void run_case(){
-    arr.resize(n);
+    cin >> n >> m;
+    graph.resize(n+1);
+    loop(i, 1, m+1){
+        cin >> u >> v;
+        graph[u].pb(v);
+        graph[v].pb(u);
+    }
+    color.clear();
+    color.resize(n+1, -1);
+    visited.clear();
+    visited.resize(n+1, 0);
+    a = 0;
+    b=0;
+    bool ans = true;
+    for( int i = 1; i <= n; i++){
+        if( visited[i] == 0 ){
+            dfs(i, 1);
+        }
+    }
+    for( int i = 1; i <= n; i++){
+        if( color[i] == 0 ){
+            if( sz(graph[i]) != a ){ 
+                ans = false;
+                break;
+            }
+        }
+        else if( sz(graph[i]) != b){ 
+                ans = false; 
+                    break;
+            }
+    }
+    if( !ans ){
+        cout << 0 << endl;
+        loop(i, 0, n) cout << 0;
+    }
+    else{
+        cout << 1 << endl;
+        loop(i, 0, n) cout << color[i+1];
+    }
+    cout << endl;
+    // print(color, n+1);
+    // print(visited, n+1);
+    // loop(i, 1, n+1) {
+    //     loop(j, 0, sz(graph[i])){
+    //         cerr << graph[i][j] << " ";
+    //     }
+    //     cerr << endl;
+    // }
 }
 
 int main(){
@@ -216,3 +285,4 @@ int main(){
 //1. input for test
 //2. look for type conversion, char to int
 //3. look for declaration of large arrays.
+
