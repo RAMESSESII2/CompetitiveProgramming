@@ -45,7 +45,6 @@ typedef vector< double > vd;
 typedef vector< vi > vvi;
 typedef vector< vl > vvl;
 
-
 //sieve of eratosthenes 
 vector<int> smallest_factor;
 vector<bool> prime;
@@ -187,44 +186,54 @@ void file_i_o(){
 //===========================Template Ends==================================
 
 ll modd = 1000000009;
-string s;
-map<char, int > mp;
+int N, x, T, K;
+int teaCharges;
+int maxPayment;
+int maxDishes;
+vi favor;
+vi price;
+int dp[101][22][1001];
+
+double getFavor( int payment, int dishes, int availaible ){ 
+    int totalPayment = ceil((double)(payment + teaCharges) * 1.1L);
+
+    if( maxPayment < totalPayment || maxDishes < dishes ) return -inf;
+
+    if( maxPayment == totalPayment or availaible < 0 or maxDishes == dishes) return 0;
+    int &c = dp[availaible][dishes][payment];
+    if( c != -1 ) return c;
+    return c = max( {favor[availaible] + getFavor(payment + price[availaible], dishes + 1, availaible-1), (favor[availaible] << 1) + getFavor(payment + (price[availaible] << 1), dishes+2, availaible - 1), getFavor(payment, dishes, availaible-1) });
+}
             
 void run_case(){
-    cin >> s;
-    mp.clear();
-    for( auto x : s ){
-        if( mp[x] >= 1 ){
-            mp[x]++;
+    while(cin >> N >> x >> T >> K && ( N || x || T || K)){ 
+        favor.resize(K+1);
+        price.resize( K + 1 );
+        for( int i =0; i < K; ++i ){ 
+            favor[i] = 0;
+            cin >> price[i];
+            for( int j = 0; j < N+1;  ++j){ 
+                int f;
+                cin >> f;
+                favor[i] += f;
+            }
         }
-        else mp[x] = 1;
+        memset(dp, -1, sizeof dp);
+
+        teaCharges = T*(N+1);
+        maxPayment = x*(N+1);
+        maxDishes = (N+1) << 1;
+        cout << fixed << setprecision(2) << getFavor(0, 0, K-1)/double(N+1) << endl;
     }
-    int count1 = 0;
-    int count2 = 0;
-    for( auto x: mp ){
-        // cerr << x.ff << " " << x.ss<< endl;
-        if( x.ss == 1 )count1++;
-        else if( (x.ss & 1) == 0 ){
-            count2 += x.ss/2;
-        }
-        else {
-            if( x.ss > 3 ) count2 += (x.ss-3)/2;
-        }
-    }
-    // cerr << count1 <<" " << count2 << endl;
-    if( count1 > count2 ){
-        cout << "NO\n";
-    }
-    else cout << "YES\n";
 }
 
 int main(){
     clock_t begin = clock();
     // sieve(P_MAX);
     file_i_o();
-    // int tests = 1;
-    int tests;
-    cin >> tests;
+    int tests = 1;
+    // int tests;
+    // cin >> tests;
 
     while(tests-- > 0)
         run_case();

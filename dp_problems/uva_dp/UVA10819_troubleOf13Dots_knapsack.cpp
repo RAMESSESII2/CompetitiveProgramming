@@ -187,44 +187,44 @@ void file_i_o(){
 //===========================Template Ends==================================
 
 ll modd = 1000000009;
-string s;
-map<char, int > mp;
+int n, m, k, p, q;
+int dp[108][10002];
+vi fav;
+vi price;
+
+int findFav(int money, int items){ 
+    if( money < 1800 && money > m ) return -294380;
+    if( money-m > 200) return -294380;
+    if( items == n ){ 
+        if( money > m && money <= 2000) return -294380;
+        return 0;
+    }
+    int &ans = dp[items][money];
+    if( ans != -1 ) return ans;
+    return ans = max(findFav(money, items+1),fav[items] + findFav(money+price[items], items+1));
+}
             
 void run_case(){
-    cin >> s;
-    mp.clear();
-    for( auto x : s ){
-        if( mp[x] >= 1 ){
-            mp[x]++;
+    while( cin >> m >>n ){  
+        memset(dp, -1, sizeof dp);
+        price.resize(n, 0);
+        fav.resize(n, 0);
+        loop(i, 0, n){ 
+            cin >> price[i] >> fav[i];
         }
-        else mp[x] = 1;
+        cout << findFav( 0, 0 ) << endl;
+        // print( price, n+1 );
+        // print( fav, n+1 );
     }
-    int count1 = 0;
-    int count2 = 0;
-    for( auto x: mp ){
-        // cerr << x.ff << " " << x.ss<< endl;
-        if( x.ss == 1 )count1++;
-        else if( (x.ss & 1) == 0 ){
-            count2 += x.ss/2;
-        }
-        else {
-            if( x.ss > 3 ) count2 += (x.ss-3)/2;
-        }
-    }
-    // cerr << count1 <<" " << count2 << endl;
-    if( count1 > count2 ){
-        cout << "NO\n";
-    }
-    else cout << "YES\n";
 }
 
 int main(){
     clock_t begin = clock();
     // sieve(P_MAX);
     file_i_o();
-    // int tests = 1;
-    int tests;
-    cin >> tests;
+    int tests = 1;
+    // int tests;
+    // cin >> tests;
 
     while(tests-- > 0)
         run_case();

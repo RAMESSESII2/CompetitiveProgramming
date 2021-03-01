@@ -1,15 +1,7 @@
+1
 2
+0
 3
-1
-0
-0
-2
-1
-0
-1
-55
-200102899
-2079324314
 
 
-Executed In: 0.08438 seconds
+Executed In: 0.007238 seconds

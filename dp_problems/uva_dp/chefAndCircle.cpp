@@ -187,44 +187,62 @@ void file_i_o(){
 //===========================Template Ends==================================
 
 ll modd = 1000000009;
-string s;
-map<char, int > mp;
+int N, Q, X, Y, R;
+int x, y;
+int k;
+vector<pair<pii, int> > centers;
+// int dist[1003][1003];
+vl numberofcircles;
             
 void run_case(){
-    cin >> s;
-    mp.clear();
-    for( auto x : s ){
-        if( mp[x] >= 1 ){
-            mp[x]++;
-        }
-        else mp[x] = 1;
+    cin >> N >> Q;
+    centers.resize(N);
+    loop(i, 0, N){ 
+        cin >> X >> Y >> R;
+        centers[i] = {{X,Y}, R};
     }
-    int count1 = 0;
-    int count2 = 0;
-    for( auto x: mp ){
-        // cerr << x.ff << " " << x.ss<< endl;
-        if( x.ss == 1 )count1++;
-        else if( (x.ss & 1) == 0 ){
-            count2 += x.ss/2;
-        }
-        else {
-            if( x.ss > 3 ) count2 += (x.ss-3)/2;
+    sort( all(centers) );
+    auto euclid = [](pii a, pii b) -> ll{ 
+        int x = a.ff-b.ff;
+        int y = a.ss-b.ss;
+        return (sqrt(x*x*1LL+ y*y*1LL))*1LL;
+    };
+    int distBtwCenters;
+    int r1, r2;
+    numberofcircles.resize(1000000, 0);
+    loop(i, 0, N-1){ 
+        loop(j, i+1, N){ 
+            r1 = centers[i].ss;
+            r2 = centers[j].ss;
+            distBtwCenters = euclid( centers[i].ff , centers[j].ff );
+            // cerr << r1 << " " << r2 << endl;
+            // cerr << distBtwCenters << endl;
+            // dist[i][j] = distBtwCenters;
+            if( distBtwCenters > (r1+r2) ){ 
+                for( int k = distBtwCenters-r1-r2; k <= min(1000000,distBtwCenters+r1+r2); k++  ){ 
+                    numberofcircles[k]++;
+                }
+            }
+            else{ 
+                for( int k = 0; k <=min(1000000, distBtwCenters+r1+r2); k++  ){ 
+                    numberofcircles[k]++;
+                }
+            }
         }
     }
-    // cerr << count1 <<" " << count2 << endl;
-    if( count1 > count2 ){
-        cout << "NO\n";
+    loop(i, 0, Q){ 
+        cin >> k;
+        cout << numberofcircles[k] << endl;
     }
-    else cout << "YES\n";
 }
 
 int main(){
     clock_t begin = clock();
     // sieve(P_MAX);
     file_i_o();
-    // int tests = 1;
-    int tests;
-    cin >> tests;
+    int tests = 1;
+    // int tests;
+    // cin >> tests;
 
     while(tests-- > 0)
         run_case();
