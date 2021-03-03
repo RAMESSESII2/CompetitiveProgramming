@@ -1,4 +1,4 @@
-6 3
+4
 
 
-Executed In: 0.000399 seconds
+Executed In: 0.000169 seconds
