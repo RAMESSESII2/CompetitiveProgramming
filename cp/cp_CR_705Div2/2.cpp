@@ -46,6 +46,7 @@ typedef vector< vi > vvi;
 typedef vector< vl > vvl;
 
 
+
 void file_i_o(){
     ios_base::sync_with_stdio(0);
     cin.tie(0);
@@ -61,78 +62,64 @@ void file_i_o(){
 
 //===========================Template Ends==================================
 
-int N, Q, X, Y, R;
-int x, y;
-int k;
-vector<pair<pii, int> > centers;
-int krange = 1000001;
-vl numberofcircles(1000005);
+ll modd = 1000000009;
+int h, m;
+string s;
+int hh, mm; 
+map<int, int> mp;
+vi arr;
             
 void run_case(){
-    cin >> N >> Q;
-    centers.resize(N);
-    loop(i, 0, N){ 
-        cin >> X >> Y >> R;
-        centers[i] = {{X,Y}, R};
-    }
-    auto euclid = [](const pii &a, const pii &b) -> ll{ 
-        x = a.ff-b.ff;
-        y = a.ss-b.ss;
-        return (sqrt(x*x*1LL+ y*y*1LL))*1LL  ;
-    };
-    ll distBtwCenters;
-    int r1, r2;
-    int maxm = 0,minm = 0;
-    loop(i, 0, N-1){ 
-        loop(j, i+1, N){ 
-            r1 = centers[i].ss;
-            r2 = centers[j].ss;
-            distBtwCenters = euclid( centers[i].ff , centers[j].ff );
-            // cerr << distBtwCenters << endl;
-            // cerr << r1 << " " << r2 << endl;
-            // cerr << distBtwCenters << endl;
-            // dist[i][j] = distBtwCenters;
-            maxm = distBtwCenters+r1+r2;
-            if( distBtwCenters >= (r1+r2) ){ 
-                minm = distBtwCenters-r1-r2;
-                // cerr << "inside" <<1 << endl;
-            }
-            else{ 
-                if( centers[i].ff == centers[j].ff ){ 
-                    if( r1 == r2 ){
-                        // cerr << "inside" <<2<< endl;
-                        minm = 0;
-                    }
-                    else{
-                        // cerr << "inside" <<3<< endl;
-                        minm = max(r1, r2)-min(r1, r2); } 
-                }
-                else if( distBtwCenters < r1 || distBtwCenters < r2){   
-                        // cerr << "inside" <<4<< endl;
-                    minm = max(r1, r2)-distBtwCenters-min(r1,r2);}
-            }
-            // cerr << maxm <<" " << minm << endl;
-            numberofcircles[minm]++;
-            numberofcircles[maxm+1]--;
+    cin >> h >> m;
+    cin >> s;
+    hh = (s[0]-'0')*10 + s[1]-'0';
+    mm = (s[3]-'0')*10 + s[4]-'0';
+    cerr << hh << ":" << mm << endl;
+    auto valid = [](const int &x)->int{ 
+        string temp = to_string(x);
+        if( sz(temp) == 1 ) temp = "0"+temp;
+        string ans = "";
+        for( int i = 1; i >= 0; --i){ 
+            if( mp[temp[i]-'0'] == -1 )return 100006;
+            ans += char(mp[temp[i]-'0'] + '0');
         }
-    }
-    for( int i = 1; i <= krange; i++){ 
-        numberofcircles[i] += numberofcircles[i-1];
-    }
-    // print(numberofcircles, 17);
-    loop(i, 0, Q){ 
-        cin >> k;
-        cout << numberofcircles[k] << endl;
+        return stoi(ans);
+    };
+    auto good = [](const int &a)->string{ 
+        string c = to_string(a);
+        if( a < 10 ) c = "0"+c;
+        return c;
+    };
+    while( 1 ){
+        if( mm == m ){
+            hh++, mm = 0;
+        }
+        if( h == hh ) hh = 0;
+        if( valid(mm) < h && valid(hh) < m ){ 
+            cout << good(hh) << ":"<< good(mm) << endl;
+            break;
+        }
+        mm++;
     }
 }
 
 int main(){
     clock_t begin = clock();
     // sieve(P_MAX);
-    // file_i_o();
-    int tests = 1;
-    // int tests;
-    // cin >> tests;
+    file_i_o();
+    mp[1] = 1;
+    mp[2] = 5;
+    mp[5] = 2;
+    mp[3] = -1;
+    mp[4] = -1;
+    mp[6] = -1;
+    mp[7] = -1;
+    mp[9] = -1;
+    mp[8] = 8;
+    mp[0] = 0;
+    // int tests = 1;
+    int tests;
+    cin >> tests;
 
     while(tests-- > 0)
         run_case();
@@ -145,7 +132,7 @@ int main(){
 }
 
 //Debug
-//1. input for test
+//1. size of vi and other containers if applicable
 //2. look for type conversion, char to int
 //3. look for declaration of large arrays.
 

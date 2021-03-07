@@ -188,10 +188,46 @@ void file_i_o(){
 
 ll modd = 1000000009;
 int n, m, k, p, q;
-vi arr;
+vpii arr;
+int dp[301][301];
+
+//correct
+// int dp[301][301][40];
+// int getMinCoins(int x, int y, int avaiable){ 
+//     int cur = x*x+y*y;
+
+//     if( cur == m ) return 0;
+//     if( cur > m or avaiable <0 ) return 10000;
+
+//     int &ans = dp[x][y][avaiable];
+//     if( ans ) return ans;
+
+//     ans = min(getMinCoins(x, y, avaiable-1), 1+ getMinCoins(x+arr[avaiable].ff, y+arr[avaiable].ss, avaiable));
+//     return ans;
+// }
             
 void run_case(){
-
+    cin >> n >> m;
+    arr.resize(n);
+    for( auto &x: arr ) cin >> x.ff >> x.ss;
+    // memset(dp, 0, sizeof dp);
+    loop(i, 0, m+1) loop(j, 0, m+1)dp[i][j] = 10000;
+    dp[0][0] = 0;
+    loop(i, 0, n){ 
+        loop(j, arr[i].ff, m+1){ 
+            loop(k, arr[i].ss, m+1){ 
+                dp[j][k] = min(dp[j][k], 1 +dp[j-arr[i].ff][k-arr[i].ss]);
+            }
+        }
+    }
+    m *= m;
+    int ans = 10000;
+    for( int i = 0; i <= m; i++ )
+        for( int j = 0; j <= m; j++ ){ 
+            if( i*i + j*j == m ) ans = min(ans, dp[i][j]);
+        }
+    if( ans == 10000 ) cout << "not possible\n";
+    else cout << ans << endl;
 }
 
 int main(){
@@ -216,3 +252,4 @@ int main(){
 //1. size of vi and other containers if applicable
 //2. look for type conversion, char to int
 //3. look for declaration of large arrays.
+

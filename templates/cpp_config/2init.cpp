@@ -26,15 +26,6 @@
 #include <cassert>
 #include <chrono>
 #include <cmath>
-bool compare(int a, int b){
-    return a>b;
-}
-
-bool sortbysec(const pair<int,int> &a, 
-              const pair<int,int> &b) 
-{ 
-    return (a.second < b.second); 
-} 
   
 int binarySearch (const int A[], int length, int val) {
 

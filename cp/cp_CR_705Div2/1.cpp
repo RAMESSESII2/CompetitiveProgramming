@@ -191,7 +191,33 @@ int n, m, k, p, q;
 vi arr;
             
 void run_case(){
-
+    cin >> n >> k;
+    if( n == 1 ){ 
+        if( k ==1) cout << 0 << endl;
+        else{
+            cout << 1 << endl;
+            cout << 1 << endl;
+        } 
+        return;
+    }
+    if( (k&1) ){
+        if( k <= n ) cout << n-k/2-1;
+        else cout << n-k/2;
+        cout << endl;
+        for(int i = k/2+1; i <= n; i++){
+            if( i == k ) continue;
+            cout << i << " ";
+        }
+    }
+    else {
+        if( k <= n ) cout << n-k/2;
+        cout << endl;
+        for(int i = k/2;  i <= n; i++){
+            if( i == k ) continue;
+            cout << i << " ";
+        }
+    }
+    cout << endl;
 }
 
 int main(){
@@ -216,3 +242,4 @@ int main(){
 //1. size of vi and other containers if applicable
 //2. look for type conversion, char to int
 //3. look for declaration of large arrays.
+

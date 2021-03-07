@@ -188,19 +188,40 @@ void file_i_o(){
 
 ll modd = 1000000009;
 int n, m, k, p, q;
-vi arr;
+ll dp[60][60][60];
+
+ll recurse(int unitsLeft, int barsLeft, int wide){ 
+    if( barsLeft == 0 ){
+        if( unitsLeft ) return 0LL;
+        return 1LL;
+    }
+    // if( wide < 0 ) return 0LL;
+
+    ll &ans = dp[unitsLeft][barsLeft][wide];
+    if( ans != -1) return ans;
+    ans = 0LL;
+    for( int i = 1; i <= m; i++ ){ 
+        if( unitsLeft - i >= 0 ) ans += recurse(unitsLeft-i, barsLeft-1, wide);
+        else break;
+    }
+    return ans;
+}
             
 void run_case(){
-
+    while( cin >> n >>k >> m ){ 
+        memset(dp, -1, sizeof dp);
+        ll ans = recurse(n, k, m);
+        cout << ans << endl;
+    }
 }
 
 int main(){
     clock_t begin = clock();
     // sieve(P_MAX);
     file_i_o();
-    // int tests = 1;
-    int tests;
-    cin >> tests;
+    int tests = 1;
+    // int tests;
+    // cin >> tests;
 
     while(tests-- > 0)
         run_case();
@@ -216,3 +237,4 @@ int main(){
 //1. size of vi and other containers if applicable
 //2. look for type conversion, char to int
 //3. look for declaration of large arrays.
+

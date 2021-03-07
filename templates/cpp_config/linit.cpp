@@ -313,8 +313,7 @@ ll n, k;
 ll arr[100005];
 
 void run_case(){
-    int i = 0, j = 0;
-    %%%
+
 }
 
 int main(){
@@ -334,5 +333,3 @@ int main(){
     #endif
     return 0;
 }
-
-
