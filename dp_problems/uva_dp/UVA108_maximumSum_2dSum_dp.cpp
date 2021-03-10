@@ -187,21 +187,52 @@ void file_i_o(){
 //=================Template Ends=====================
 
 const int modd = 1000000009;
-const int MAX = 1000007;
-int n, m, k, p, q;
-vi arr;
+const int MAX = 104;
+int n;
+int matrix[MAX][MAX];
+int curMatix[MAX];
             
 void run_case(){
-
+    while(cin >> n){
+        int largest = -inf;
+        int zeroExists = false;
+        loop(i, 0, n){ 
+            loop(j, 0, n){ 
+                cin >> matrix[i][j];
+                if( matrix[i][j] == 0) zeroExists = true;
+                largest = max(largest, matrix[i][j]);
+            }
+        }
+        int ans = -inf;
+        loop(i, 0, n){ 
+            memset(curMatix, 0, sizeof curMatix);
+            loop(j, i, n){ 
+                int maxm = 0;
+                int curAns = -inf;
+                loop(k, 0, n){ 
+                    curMatix[k] += matrix[k][j];
+                    maxm += curMatix[k];
+                    if( maxm < 0 ) maxm = 0;
+                    curAns = max(curAns, maxm);
+                }
+                ans = max(ans, curAns);
+            }
+            // cerr << endl;
+        }
+        if( ans == 0 && !zeroExists){
+            ans = largest;
+        }
+        cout <<  ans << endl;
+    }
 }
 
 int main(){
     clock_t begin = clock();
     // sieve(P_MAX);
     file_i_o();
-    // int tests = 1;
-    int tests;
-    cin >> tests;
+    int tests = 1;
+    // int tests;
+    // cin >> tests;
 
     while(tests-- > 0)
         run_case();
@@ -217,3 +248,4 @@ int main(){
 //1. size of vi and other containers if applicable
 //2. look for type conversion, char to int
 //3. look for declaration of large arrays.
+

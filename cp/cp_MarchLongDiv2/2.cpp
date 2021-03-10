@@ -1,4 +1,4 @@
-//===============Template==================
+//====================Template==================
 #include <bits/stdc++.h>
 // #include <boost/lexical_cast.hpp> // for lexical_cast() 
 using namespace std;
@@ -6,11 +6,11 @@ using namespace std;
 #define endl            '\n' 
 #define ll              long long int
 #define ld              long double
+#define mod             1000000007
 #define pb              push_back
 #define ff              first
 #define ss              second
-#define infl             1e18
-#define inf              1e9
+#define inf             1e18
 #define mid(l, r)       (l+(r-l)/2)
 #define loop(i, a, b)   for(int i=(a); i<b; i++)
 #define loopr(i, a, b)  for(int i=(a); i>b; i--)
@@ -19,6 +19,8 @@ using namespace std;
 #define all(c)          c.begin(), c.end()
 #define allr(c)         c.rbegin(), c.rend()
 
+#define tr(container, it) \
+    for(typeof(container.begin()) it = container.begin(); it != container.end(); it++)
 #define present(container, element) \
     (container.find(element) != container.end())
 #define vpresent(container, element) \
@@ -26,12 +28,12 @@ using namespace std;
 
 #define print(dp, n); \
     loop(i, 0, n){cerr << dp[i] << " ";}cerr << endl; 
-
-#define countsetbits(i)\
+#define print2(dp, a, n, b, m); \
+    loop(i, a, n){loop(j, b, m){cerr << dp[i][j] << " ";}cerr << endl;} 
+#define countetbits(i)\
     __builtin_popcount(i)
 typedef pair< ll,ll > pll;
 typedef pair< int, int> pii;
-typedef pair< double, double> pdd;
 
 typedef vector< long long int > vl;
 typedef vector< int > vi;
@@ -42,8 +44,6 @@ typedef vector< double > vd;
 
 typedef vector< vi > vvi;
 typedef vector< vl > vvl;
-const string YES = "YES";
-const string NO = "NO";
 
 
 //sieve of eratosthenes 
@@ -184,14 +184,41 @@ void file_i_o(){
 // lexical_cast() converts a int into string 
 //   string stri = boost::lexical_cast<string>(i_val);  
 
-//=================Template Ends=====================
+//===========================Template Ends==================================
 
-const int modd = 1000000009;
-const int MAX = 1000007;
+ll modd = 1000000009;
 int n, m, k, p, q;
+// map<int , int> mp;
 vi arr;
+string f = "First";
+string s = "Second";
             
 void run_case(){
+    cin >> n;
+    arr.resize(n);
+    for( auto &x: arr ) cin >> x;
+    ll count = 0;
+    sort(all(arr));
+    // int maxm = *max_element(all(arr));
+    loopr(i, n-1, -1){ 
+        if( arr[i] != i+1 ){ 
+            if(i+1 < arr[i]){
+                cout << s << endl;
+                return;
+            }
+            else count += i+1-arr[i];
+        }
+    }
+    // if( arr[0] != 1 ){
+    //     cout << s << endl;
+    //     return;
+    // }
+    // cout << count << endl;
+    //first loses
+    if( count <= 0 ) cout << s;
+    else if( count &1 ) cout << f;
+    else cout << s;
+    cout << endl;
 
 }
 
@@ -217,3 +244,4 @@ int main(){
 //1. size of vi and other containers if applicable
 //2. look for type conversion, char to int
 //3. look for declaration of large arrays.
+

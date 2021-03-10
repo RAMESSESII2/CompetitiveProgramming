@@ -190,18 +190,26 @@ const int modd = 1000000009;
 const int MAX = 1000007;
 int n, m, k, p, q;
 vi arr;
+string s;
             
 void run_case(){
-
+    cin >> n;
+    cin >> s;
+    int a = count(s.begin(), s.end(), 'A');
+    int d = count(s.begin(), s.end(), 'D');
+    if( a > d ) cout << "Anton";
+    else if ( d > a) cout << "Danik";
+    else cout << "Friendship";
+    cout << endl;
 }
 
 int main(){
     clock_t begin = clock();
     // sieve(P_MAX);
     file_i_o();
-    // int tests = 1;
-    int tests;
-    cin >> tests;
+    int tests = 1;
+    // int tests;
+    // cin >> tests;
 
     while(tests-- > 0)
         run_case();
@@ -217,3 +225,4 @@ int main(){
 //1. size of vi and other containers if applicable
 //2. look for type conversion, char to int
 //3. look for declaration of large arrays.
+

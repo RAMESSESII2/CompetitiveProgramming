@@ -188,11 +188,35 @@ void file_i_o(){
 
 const int modd = 1000000009;
 const int MAX = 1000007;
-int n, m, k, p, q;
-vi arr;
+int n, m, p, q;
+ll k;
+set<int> sett;
             
 void run_case(){
-
+    cin >> n >> k;
+    int mex, maxx;
+    sett.clear();
+    loop(i, 0, n){
+        cin >> p;
+        sett.insert(p);
+    }
+    mex = 0;
+    for( auto x: sett ){ 
+        if( x != mex) break;
+        mex++;
+    }
+    auto it = sett.end();
+    it--;
+    maxx = *it;
+    // cerr << mex << " " << maxx << endl;
+    if( mex < maxx){
+        // cerr << ceil(double(mex+maxx)/(2*1.0)) << endl;
+        if( k > 0 ) sett.insert(ceil(double(mex+maxx)/(2*1.0)));
+        cout << sz(sett) << endl;
+        return;
+    }
+    ll ans = sz(sett)+k ;
+    cout << ans << endl;
 }
 
 int main(){
@@ -217,3 +241,4 @@ int main(){
 //1. size of vi and other containers if applicable
 //2. look for type conversion, char to int
 //3. look for declaration of large arrays.
+

@@ -186,13 +186,34 @@ void file_i_o(){
 
 //=================Template Ends=====================
 
-const int modd = 1000000009;
-const int MAX = 1000007;
-int n, m, k, p, q;
-vi arr;
+int n;
+ll x, y;
+double ans;
+vector<ll> miners;
+vector<ll> mines;
             
 void run_case(){
-
+    cin >> n;
+    miners.resize(n, 0);
+    mines.resize(n, 0);
+    int j = 0, k = 0; 
+    loop(i, 0, 2*n){
+        cin >> x >> y;
+        if( x ==  0){
+            miners[j++] = abs(y);
+        }
+        else mines[k++] = abs(x);
+    }
+    // cerr << k << " " << j << endl;
+    sort(all( mines ));
+    sort(all( miners ));
+    ans = 0;
+    for(int i(0); i < n; i++){
+        ans += (sqrt((mines[i]*mines[i]*1.0) +(miners[i]*miners[i]*1.0) ));
+    }
+    cout << fixed << setprecision(15) << ans << endl;
+    miners.clear();
+    mines.clear();
 }
 
 int main(){
@@ -202,7 +223,6 @@ int main(){
     // int tests = 1;
     int tests;
     cin >> tests;
-
     while(tests-- > 0)
         run_case();
 
@@ -217,3 +237,4 @@ int main(){
 //1. size of vi and other containers if applicable
 //2. look for type conversion, char to int
 //3. look for declaration of large arrays.
+

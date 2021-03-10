@@ -189,10 +189,23 @@ void file_i_o(){
 const int modd = 1000000009;
 const int MAX = 1000007;
 int n, m, k, p, q;
+string s;
 vi arr;
             
-void run_case(){
-
+bool run_case(){
+    cin >> n >> k;
+    cin >> s;
+    if( k == 0 ) return true;
+    if( 2*k + 1 > n ) return false;
+    int left = 0;
+    int right = s.length()-1;
+    while( left < right ){ 
+        if( s[left] != s[right] )break;
+        left++;
+        right--;
+    }
+    if( left+1 > k  ) return true;
+    return false;
 }
 
 int main(){
@@ -203,8 +216,12 @@ int main(){
     int tests;
     cin >> tests;
 
-    while(tests-- > 0)
-        run_case();
+    while(tests-- > 0){
+        if( run_case()){
+            cout << "YES\n";
+        }
+        else cout << "NO\n";
+    }
 
     #ifndef ONLINE_JUDGE
     clock_t end = clock();
@@ -217,3 +234,4 @@ int main(){
 //1. size of vi and other containers if applicable
 //2. look for type conversion, char to int
 //3. look for declaration of large arrays.
+
