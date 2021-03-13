@@ -195,6 +195,7 @@ vpii arr;
 void run_case(){
     cin >> n >> m >> k;
     arr.resize(k);
+    set<int> r, c;
     loop(i, 0, k){
         cin >> p >> q;
         arr[i] = {p,q};
@@ -202,33 +203,42 @@ void run_case(){
         // else{
         rw[p]++;
         cl[q]++;
+        r.insert(p);
+        c.insert(q);
         // }
     }
-    // loop(i, 0, k){
-    //     cerr << arr[i].ff << " " << arr[i].ss <<endl;
-    // }
     ll ans = 0;
-    int maxrow = -2;
-    int maxcol  = -2;
+    ll maxrow = -2;
+    ll maxcol  = -2;
     for( auto x: rw ){
-        if( x.ss > ans ){
-            ans = x.ss;
-            maxrow = x.ff;
-        }
+        maxrow = max(maxrow, x.ss);
     }
-    ll temp = 0;
     for( auto x: cl ){
-        if( x.ss > temp ){
-            temp = x.ss;
+        maxcol = max(maxcol, x.ss);
+    }
+    vi r_cand;
+    vi c_cand;
+    for( auto x: rw ){
+        if( x.ss == maxrow ){
+            r_cand.pb(x.ff);
         }
     }
-    cerr << maxrow << " " << maxcol;
-    if( find(all(arr),make_pair( maxrow, maxcol )) != arr.end() ){ 
-        temp--;
+    for( auto x: cl ){
+        if( x.ss == maxcol ){
+            c_cand.pb(x.ff);
+        }
     }
-    cout << ans+temp;
-    rw.clear();
-    cl.clear();
+
+    ans = maxrow + maxcol -1;
+    for( auto x : r_cand ){
+        for( auto y: c_cand ){
+            if(count(all(arr),make_pair( x,y )) == 0 ){ 
+                cout << ans+1 << endl;
+                return;
+            }
+        }
+    }
+    cout << ans << endl;
 
 }
 

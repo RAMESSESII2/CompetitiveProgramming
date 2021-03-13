@@ -1,2 +1,4 @@
-6
-DADADA
+3
+aa a
+acdcb a*c?b
+acdcb a?*b

@@ -87,6 +87,17 @@ ll lcm(ll a, ll b)
     return temp ? (a / temp * b) : 0;
 }
 // Returns first i in [l, r] s.t. predicate(i) is true. Never evaluates r.
+template <typename I, typename P> I binarysearch(const P &predicate, I l, I r) {
+    l--;
+    while (r - l > 1) {
+        auto mid = l + (r - l) / 2;
+        if (predicate(mid))
+            r = mid;
+        else
+            l = mid;
+    }
+    return r;
+}
 //MST template
 struct Edge{
     int from, to, weight, index;
@@ -175,92 +186,54 @@ void file_i_o(){
 
 //=================Template Ends=====================
 
-int N, E, H, A, B, C;
-// 0 -> price of omellet 1->milkshake 2->cake
-vpii prices(3);
-int i, j, k;
-int itemsPossible(int h, int e){
-        int temp = 0;
-        temp += min(e, h);
-        e -= temp;
-        h -= temp;
-        if( h > e ) temp += (h-e)/3;
-        else temp += (e-h)/2;
-        return temp;
-};
-int binarysearch(int l, int r, int mul) {
-    int e , h;
-    l--;
-    while (r - l > 1) {
-        e = E, h = H;
-        int mid = l + (r - l) / 2;
-        if( mul == 0 ) e = E-2*mid;
-        else if( mul == 1) h = H -3*mid;
-        else {
-            h = H-mid;
-            e = E-mid;
-        }
-        cerr << e << " " << h << " "<< mid << " " << itemsPossible(h, e) << endl;
-        cerr << l << " " << r << endl;
-        if (h>=0 && e >=0 && itemsPossible(h, e) >= N){
-            l = mid;
-        }
-        else
-            r = mid;
-        // cerr << l << " " << r << endl;
-    }
-    return l+1;
-}
+const int MAX = 100010;
+int n, m, k, p, q;
+int dp[MAX];
+vi arr;
+vi lastBig;
+vi lastSmall;
             
 void run_case(){
-    cin >> N >> E >> H ;
-    i = 0;
-    for( auto &x : prices ){ 
-        cin >> x.ff;
-        x.ss = i;
-        i++;
-    }
-    sort(all(prices));
-    int totalPossible = itemsPossible(H, E);
-    if( totalPossible < N ){
-        cout << -1 << endl;
-        return;
-    }
-    for( auto x: prices ){
-        cerr << x.ff << " " << x.ss << endl;
-    }
-    int total = 0;
-    for( i = 0; i < 3; i++ ){
-        if( prices[i].ss == 0 && N > 0){
-            int maxm = binarysearch(0, E/2, 0);
-            cerr << " omlettes " << maxm << endl;
-            E -= 2*maxm;
-            total += prices[i].ff*(min(N,maxm));
-            N -= maxm;
+    cin >> n;
+    arr.resize(n);
+    lastBig.resize(n);
+    for( auto &x: arr ) cin >> x;
+    stack<pii> st;
+    for(int i = 0; i < n; i++){ 
+        while( !st.empty() && st.top().ff < arr[i] ){ 
+            st.pop();
         }
-        if( prices[i].ss == 1 && N > 0){
-            int maxm = binarysearch(0, H/3, 1);
-            cerr << " shake " << maxm << endl;
-            H -= 3*maxm;
-            total += prices[i].ff*(min(N, maxm));
-            N -= maxm;
+        if( st.empty() ){
+            lastBig[i] = -1;
         }
-        if( prices[i].ss == 2&& N > 0 ){
-            int maxm = binarysearch(0, min(H, E), 2);
-            cerr << " cake " << maxm << endl;
-            E -= maxm;
-            H -= maxm;
-            total += prices[i].ff*(min(N, maxm));
-            N -= maxm;
+        else{
+            lastBig[i] = st.top().ss;
+            // st.pop();
         }
+        st.push({arr[i], i});
     }
-    cerr <<  E << " " << H << " " << N << endl;
-    cout << total << endl;
+    st.empty();
+    for(int i = 0; i < n; i++){ 
+        while( !st.empty() && st.top().ff < arr[i] ){ 
+            if( arr[st.top().ss] == -1 ) break;
+        }
+        if( st.empty() ){
+            lastSmall[i] = -1;
+        }
+        else{
+            lastSmall[i] = st.top().ss;
+            // st.pop();
+        }
+        st.push({arr[i], i});
+    }
 
 
 
 
-    cerr << endl;
+    // loop(i, 0, n){
+    //     cerr << lastBig[i] << " ";
+    // }
+    // cerr << endl;
 }
 
 int main(){

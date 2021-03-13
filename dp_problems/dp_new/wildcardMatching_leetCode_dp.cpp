@@ -186,99 +186,43 @@ void file_i_o(){
 
 //=================Template Ends=====================
 
-int n, m, k, p, q;
-vpii coordinates;
-vector<vector<double> > dist;
-double dp[1<<9][10];
-vi ansIndices;
+string s, p;
+int n, m;
+bool dp[2002][2002];
 
-void calcDist(){
-    auto euler = [](pii a, pii b)->double{
-        int x = b.ff-a.ff;
-        int y = b.ss-a.ss;
-        return double(sqrt(x*x+ y*y)) + 16.0;
-    };
-    for( int i = 0; i < n; i++ ){
-        for( int j = 0; j < n; j++ ){
-            if( i !=j ) dist[i][j] = euler(coordinates[i], coordinates[j]);
-        }
-
-    }
-    // loop(i, 0, n){
-    //     loop(j, 0, n){
-    //         cerr << setprecision(2) << fixed <<dist[i][j]  << " ";
-    //     }
-    //     cerr << endl;
-    // }
-    // cerr << endl;
-}
-
-// float tsp(int mask, int pos){
-//     // cout << mask << " " << pos << endl;
-//     if( mask == (1<<n)-1 ) return 0.0;
-//     float &ans = dp[mask][pos];
-//     if( ans != -1 ) return ans;
-//     ans = inf;
-//     for( int i = 0; i < n; i++ ){ 
-//         if( i != pos && (mask & (1<<i)) == 0 )
-//         ans = min(ans, dist[pos][i] + tsp(mask | (1<<i), i));
-//     }
-//     return ans;
-// }
             
 void run_case(){
-    int t = 0;
-    while( cin >> n ){ 
-        if( n == 0 ) break;
-        t++;
-        coordinates.resize(n);
-        ansIndices.resize(n);
-        for( auto &x: coordinates ) cin >> x.ff >> x.ss;
-        // for(int i = (1<<9)-1; i>=0; i--){
-        //     for( int j = 0; j <= 9; j++){ 
-        //         dp[i][j] = -1;
-        //     }
-        // }
-        dist.resize(n);
-        loop(i, 0, n) dist[i].resize(n, 0);
-        calcDist();
-        // float ans = tsp(1, 0);
-        // cout << setprecision(2) << fixed <<ans+(n-1)*16*1.0 << endl;
-        loop(i, 0, n) ansIndices[i] = i;
-        double bestDist = inf;
-        vi ans;
-        do{
-            double cable = 0;
-            loop(i, 0, n-1){
-                cable += dist[ansIndices[i]][ansIndices[i+1]];
-            }
-            if( bestDist >  cable){
-                bestDist = cable;
-                ans = ansIndices;
-            }
-        }while(next_permutation(all(ansIndices)));
-        cout << setprecision(2) << fixed;
-        cout << "**********************************************************" << endl;
-        cout << "Network #" << t << endl;
-        int x, y;
-        loop(i, 0, n-1){
-            p = coordinates[ans[i]].ff;
-            q = coordinates[ans[i]].ss;
-            x = coordinates[ans[i+1]].ff;
-            y = coordinates[ans[i+1]].ss;
-            cout << "Cable requirement to connect (" << p <<"," <<  q << ") to (" << x << ","<< y << ") is " << dist[ans[i]][ans[i+1]] << " feet."<< endl;
-        }
-        cout <<"Number of feet of cable required is " << bestDist << "."<<endl;
+    cin >> s >> p;
+    n = s.length();
+    m = p.length();
+    memset(dp, false, sizeof dp);
+    dp[0][0] = true;
+
+    for( int j = 1; j <= m; j++ ){ 
+        dp[0][j] = (p[j-1] == '*') ? dp[0][j-1]:false;
     }
+
+    for( int i = 1; i <= n; i++ ){
+        for( int j = 1; j <= m; j++ ){
+            if( s[i-1] == p[j-1] || p[j-1] == '?' ){ 
+                dp[i][j] = dp[i-1][j-1];
+            }
+            else if( p[j-1] == '*' ){
+                dp[i][j] = dp[i][j-1] || dp[i-1][j];
+            }
+            else dp[i][j] = false;
+        }
+    }
+    cout << (dp[n][m] ? "true" : "false") << endl;
 }
 
 int main(){
     clock_t begin = clock();
     // sieve(P_MAX);
     file_i_o();
-    int tests = 1;
-    // int tests;
-    // cin >> tests;
+    // int tests = 1;
+    int tests;
+    cin >> tests;
 
     while(tests-- > 0)
         run_case();
