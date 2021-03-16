@@ -14,6 +14,7 @@ using namespace std;
 #define mid(l, r)       (l+(r-l)/2)
 #define loop(i, a, b)   for(int i=(a); i<b; i++)
 #define loopr(i, a, b)  for(int i=(a); i>b; i--)
+#define ks(a)           cout << "Case #" << a << ": "
 
 #define sz(a)           int((a).size())
 #define all(c)          c.begin(), c.end()
@@ -186,54 +187,15 @@ void file_i_o(){
 
 //=================Template Ends=====================
 
-const int MAX = 100010;
+int t;
+const int modd = 1000000009;
+const int MAX = 1000007;
 int n, m, k, p, q;
-int dp[MAX];
 vi arr;
-vi lastBig;
-vi lastSmall;
             
 void run_case(){
-    cin >> n;
-    arr.resize(n);
-    lastBig.resize(n);
-    for( auto &x: arr ) cin >> x;
-    stack<pii> st;
-    for(int i = 0; i < n; i++){ 
-        while( !st.empty() && st.top().ff < arr[i] ){ 
-            st.pop();
-        }
-        if( st.empty() ){
-            lastBig[i] = -1;
-        }
-        else{
-            lastBig[i] = st.top().ss;
-            // st.pop();
-        }
-        st.push({arr[i], i});
-    }
-    st.empty();
-    for(int i = 0; i < n; i++){ 
-        while( !st.empty() && st.top().ff < arr[i] ){ 
-            if( arr[st.top().ss] == -1 ) break;
-        }
-        if( st.empty() ){
-            lastSmall[i] = -1;
-        }
-        else{
-            lastSmall[i] = st.top().ss;
-            // st.pop();
-        }
-        st.push({arr[i], i});
-    }
-
-
-
-
-    // loop(i, 0, n){
-    //     cerr << lastBig[i] << " ";
-    // }
-    // cerr << endl;
+    ks(t);
+    cout << endl;
 }
 
 int main(){
@@ -243,8 +205,7 @@ int main(){
     // int tests = 1;
     int tests;
     cin >> tests;
-
-    while(tests-- > 0)
+    for( t = 1 ; t <= tests; t++ )
         run_case();
 
     #ifndef ONLINE_JUDGE
