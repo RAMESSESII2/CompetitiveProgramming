@@ -1,4 +1,2 @@
-3
-aa a
-acdcb a*c?b
-acdcb a?*b
+3 1
+-23 3349 9

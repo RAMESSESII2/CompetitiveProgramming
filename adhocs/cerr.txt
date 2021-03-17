@@ -1,6 +1,0 @@
-aa a
-1 1
-acdcb a*c?b
-3 4
-acdcb a?*b
-5 4
