@@ -186,43 +186,37 @@ void file_i_o(){
 
 //=================Template Ends=====================
 
-ll n, m, k, p, q;
-ll cur;
-vl arr;
+const int modd = 1000000009;
+const int MAX = 1000007;
+int n, m, k, p, q;
+int a, b, c;
+int f[102][102];
+vi arr;
             
 void run_case(){
-    cin >> n >> m >>k;
-    arr.clear();
-    ll i = 1;
-    ll res = 0;
-    for( i = 1; i <= m; i++ ){
-        // cur = i+1;
-        cur = min(i, min(n, m));
-        // cerr << i+1 << endl;
-        if( cur&1 ) res ^= (i+1+k);
+    cin >> n >> m;
+    memset(f, 0, sizeof f);
+    arr.resize(n+1, 0);
+    loop(i, 0, m){
+        cin >> a >> b >> c;
+        // f[a][b] = c;
+        arr[a] += c;
+        arr[b] -= c;
     }
-    // cerr << i << endl;
-    for( ll row = 2; row <= n; row++ ){
-        cur = min(m,n+1-row);
-        // cerr << i+1 << endl;
-        if( cur & 1) res ^= (i+1+k);
-        i++;
+    ll sum = 0;
+    loop(i, 1, n+1){
+        if( arr[i] > 0 ) sum += arr[i];
     }
-    // for(  i= 0; i < sz(arr); i++ ){
-    //     res ^= (arr[i]);
-    // }
-    // print(arr, sz(arr));
-    cout << (res) << endl;
-    // cerr << endl;
+    cout << sum << endl;
 }
 
 int main(){
     clock_t begin = clock();
     // sieve(P_MAX);
     file_i_o();
-    // int tests = 1;
-    int tests;
-    cin >> tests;
+    int tests = 1;
+    // int tests;
+    // cin >> tests;
 
     while(tests-- > 0)
         run_case();
