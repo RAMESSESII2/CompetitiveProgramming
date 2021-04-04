@@ -14,7 +14,6 @@ using namespace std;
 #define mid(l, r)       (l+(r-l)/2)
 #define loop(i, a, b)   for(int i=(a); i<b; i++)
 #define loopr(i, a, b)  for(int i=(a); i>b; i--)
-#define ks(a)           cout << "Case #" << a << ": "
 
 #define sz(a)           int((a).size())
 #define all(c)          c.begin(), c.end()
@@ -187,71 +186,41 @@ void file_i_o(){
 
 //=================Template Ends=====================
 
+const int modd = 1000000009;
+const int MAX = 1000007;
 int t;
-int x, y;
-string s;
-ll f[1005][2];// 0 -'C', 1-'J'
-// int dp[1008];
+int s[] = {1,2,3, 4,5};
 
-// int funcion(string s){
-//     if( sz(s) <= 1) return 0;
-//     else if( s[0] == '?' ) return funcion(s.substr(1));
-//     else if( s[1] == '?' ) {
-//         s[1] = 'C';
-//         int ans = funcion(s);
-//         s[1] = 'J';
-//         int ans2 = funcion(s);
-//         return min(ans, ans2);
-//     }
-//     else if (s[0] == 'C' && s[1] == 'J'){
-//         return x + funcion(s.substr(1));
-//     }
-//     else if (s[0] == 'J' && s[1] == 'C'){
-//         return y + funcion(s.substr(1));
-//     }
-//     else return funcion(s.substr(1));
-// }
-            
 void run_case(){
-    ks(t);
-    cin >> x >> y >> s;
-    // memset(dp, 0, sizeof dp);
-    // cout << funcion(s);
-    memset(f, 1, sizeof f);
-    // 0 -'C', 1-'J'
-    if ( s[0] != 'J' ) f[1][0] = 0;
-    if ( s[0] != 'C' ) f[1][1] = 0;
-    ll n= s.length();
-    for( ll i = 1; i < n; i++){
-        //stick on a 'C'
-        if( s[i] != 'J' ){
-            f[i+1][0] = min(f[i+1][0], f[i][0]);//prev char 'C'
-            f[i+1][0] = min(f[i+1][0], f[i][1] + y);//prev char 'J', cost y -'JC'
-        }
-        //stick on a 'J'
-        if( s[i] != 'C' ){
-            f[i+1][1] = min(f[i+1][1], f[i][0] + x);//prev char 'C', cost x -'CJ'
-            f[i+1][1] = min(f[i+1][1], f[i][1] );//prev char 'J'
+    cin >> t;
+    int count = 0;
+    int rem;
+    while( t > 0 ){
+        for( int i =5 ; i >= 1; i-- ){
+            if( t == 0 ) break;
+            rem = t%i;
+            count += t/i;
+            t = rem;
         }
     }
-    cout << min(f[n][0], f[n][1]);
-    cout << endl;
+    cout << count << endl;
 }
 
 int main(){
     clock_t begin = clock();
     // sieve(P_MAX);
-    file_i_o();
-    // int tests = 1;
-    int tests;
-    cin >> tests;
-    for( t = 1 ; t <= tests; t++ )
+    // file_i_o();
+    int tests = 1;
+    // int tests;
+    // cin >> tests;
+
+    while(tests-- > 0)
         run_case();
 
-    #ifndef ONLINE_JUDGE
-    clock_t end = clock();
-        cout << "\n\nExecuted In: " << double(end - begin) /CLOCKS_PER_SEC << " seconds" << endl;
-    #endif
+    // #ifndef ONLINE_JUDGE
+    // clock_t end = clock();
+    //     cout << "\n\nExecuted In: " << double(end - begin) /CLOCKS_PER_SEC << " seconds" << endl;
+    // #endif
     return 0;
 }
 
