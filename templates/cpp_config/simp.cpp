@@ -2,9 +2,20 @@
 #define ll long long int
 using namespace std;
 
+void file_i_o(){
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+#ifndef ONLINE_JUDGE
+    freopen("in.txt", "r", stdin);
+    freopen("out.txt", "w", stdout);
+    freopen("cerr.txt", "w", stderr);
+#endif
+}
+
 int main()
 {
-    ios::sync_with_stdio(false); cin.tie(0);
+    file_i_o();
     ll TC;
     cin >> TC;
     while (TC--)
@@ -13,3 +24,4 @@ int main()
     }
     return 0;
 }
+
