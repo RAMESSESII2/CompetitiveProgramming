@@ -1,4 +1,10 @@
-NO
+20
+36
+51
+44
+76
+88
+132
 
 
-Executed In: 0.000103 seconds
+Executed In: 0.000112 seconds

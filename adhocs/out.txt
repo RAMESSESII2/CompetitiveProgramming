@@ -1,4 +1,8 @@
-0
+4
+1 2
+2 4
+3 0
+5 0
 
 
-Executed In: 0.00017 seconds
+Executed In: 0.000157 seconds
