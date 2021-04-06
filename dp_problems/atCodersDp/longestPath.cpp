@@ -1,6 +1,6 @@
 //===============Template==================
+#include <algorithm>
 #include <bits/stdc++.h>
-#include <string>
 // #include <boost/lexical_cast.hpp> // for lexical_cast() 
 using namespace std;
 
@@ -43,10 +43,6 @@ typedef vector< double > vd;
 
 typedef vector< vi > vvi;
 typedef vector< vl > vvl;
-const string YES = "YES";
-const string NO = "NO";
-
-
 void file_i_o(){
     ios_base::sync_with_stdio(0);
     cin.tie(0);
@@ -57,75 +53,44 @@ void file_i_o(){
     freopen("cerr.txt", "w", stderr);
 #endif
 }
-// lexical_cast() converts a int into string 
-//   string stri = boost::lexical_cast<string>(i_val);  
+const int MAX = 100001;
+int n, m, k, p, q;
+vi adj[MAX];
+int dp[MAX];
 
-//=================Template Ends=====================
-
-const int modd = 1000000009;
-const int MAX = 1000007;
-int m, k, p, l;
-string n;
-
-// ll mod(string num, int a)
-// {
-//     ll res = 0;
-//     for (int i = 0; i < num.length(); i++)
-//          res = (res*10L+ (int)num[i] - '0') %a;
- 
-//     return res;
-// }
- 
-void run_case(){
-    cin >> l >> m >> n;
-    //{
-    //    //brute force
-    //    if( l == 1 ) cout << stoi(n) % m << endl;
-    //    else{
-    //        ll ans = -inf;
-    //        for( int i = 0; i < l; i++ ){
-    //            ans = max(ans, mod(n.substr(0, i) + n.substr(i+1), m));
-    //        }
-    //        cout <<  ans<< endl;
-    //    }
-    //}
-    ll ans = -inf;
-    ll cur;
-    int i = 0;
-    while( i != l+1 ){
-        cur = 0L;
-        for( int j= 0; j <l; j++){
-            if( j == i ) continue;
-            cur = (cur*10L + (int)n[j] - '0') % m;
-            // cerr << cur << endl;
-        }
-        // if( cur == m-1 ){
-        //     cout << cur << endl;
-        //     return;
-        // }
-        cerr << cur << endl;
-        // cerr << endl;
-        ans = max(ans, cur);
-        i++;
+int longestPath(int src){
+    if( dp[src] != -1 ) return dp[src];
+    int res = -inf;
+    bool no_nb = true;
+    for( auto nb: adj[src] ){
+        no_nb = false;
+        res = max(longestPath(nb), res);
     }
-    cout << ans << endl;
+    return dp[src] = no_nb? 0 : res+1;
 }
 
 int main(){
     clock_t begin = clock();
     // sieve(P_MAX);
     file_i_o();
-    // int tests = 1;
-    int tests;
-    cin >> tests;
 
-    while(tests-- > 0)
-        run_case();
-
-    // #ifndef ONLINE_JUDGE
-    // clock_t end = clock();
-    //     cout << "\n\nExecuted In: " << double(end - begin) /CLOCKS_PER_SEC << " seconds" << endl;
-    // #endif
+    // int tests;
+    // cin >> tests;
+    cin >> n >> m;
+    memset(dp, -1, sizeof dp);
+    loop(i, 0, m){
+        cin >> p >> q;
+        adj[p].pb(q);
+    }
+    int ans = 0;
+    loop(i, 0, n){
+        ans = max(ans, longestPath(i+1));
+    }
+    cout << ans << '\n';
+    #ifndef ONLINE_JUDGE
+    clock_t end = clock();
+        cout << "\n\nExecuted In: " << double(end - begin) /CLOCKS_PER_SEC << " seconds" << endl;
+    #endif
     return 0;
 }
 
@@ -133,3 +98,4 @@ int main(){
 //1. size of vi and other containers if applicable
 //2. look for type conversion, char to int
 //3. look for declaration of large arrays.
+
