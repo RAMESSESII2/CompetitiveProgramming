@@ -1,5 +1,6 @@
 //===============Template==================
 #include <bits/stdc++.h>
+#include <vector>
 // #include <boost/lexical_cast.hpp> // for lexical_cast() 
 using namespace std;
 
@@ -186,22 +187,39 @@ void file_i_o(){
 
 //=================Template Ends=====================
 
-ll n, m, k, p, q;
-
+int n, m, k, p, q;
+vector<pair<pii, bool> > pos(1005);
+            
 void run_case(){
-    cin >> n;
-    // 1 ->20, 2->36, 3->51, 4->44
-    ll ans = 0L;
-    if( n == 1 ) ans = 20;
-    else if( n == 2 ) ans = 36;
-    else if( n == 3) ans = 51;
-    else if( n >= 4 ){
-        ans += 44*(n/4L);
-        ll rem = n%4;
-        if( rem == 1 ) ans += 20+12;
-        else if( rem == 2 ) ans += 36+8;
-        else if( rem == 3) ans += 51+4;
-        else ans += 16;
+    int x0, y0;
+    int x, y;
+    cin >> n >> x0 >> y0;
+    loop(i, 0, n){
+        cin >> x >> y;
+        pos[i].ff.ff = x;
+        pos[i].ff.ss = y;
+        pos[i].ss = false;
+    }
+    int ans = 0;
+    auto findSlope = [](pii a, pii b)->double{
+        if( a.ff-b.ff == 0) return 98997989.00;
+        return double(((a.ss-b.ss)*.01)/(a.ff-b.ff));
+    };
+    double cur, slope;
+    loop(i, 0, n){
+        if( pos[i].ss) continue;
+        //line slope
+        ans++;
+        slope = findSlope(pos[i].ff, {x0, y0});
+        pos[i].ss = true;
+        // cerr << pos[i].ff.ff << " " << pos[i].ff.ss<< "  Slope:" << slope << " " << endl;
+        loop(j, 0, n){
+            if( i == j or pos[j].ss) continue;
+            cur= findSlope(pos[j].ff, {x0, y0});
+            if( cur == slope ) pos[j].ss = true;
+            // cerr << pos[j].ff.ff << " " << pos[j].ff.ss<< "  Slope:" << cur << " " << endl;
+        }
+        // cerr << " loop ends" << endl;
     }
     cout << ans << endl;
 }
@@ -210,9 +228,9 @@ int main(){
     clock_t begin = clock();
     // sieve(P_MAX);
     file_i_o();
-    // int tests = 1;
-    int tests;
-    cin >> tests;
+    int tests = 1;
+    // int tests;
+    // cin >> tests;
 
     while(tests-- > 0)
         run_case();

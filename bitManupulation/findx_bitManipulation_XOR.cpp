@@ -186,24 +186,35 @@ void file_i_o(){
 
 //=================Template Ends=====================
 
-ll n, m, k, p, q;
-
+const int MAX = 1000007;
+int n, m, k, p, q;
+int l, r;
+vl arr;
+            
 void run_case(){
-    cin >> n;
-    // 1 ->20, 2->36, 3->51, 4->44
-    ll ans = 0L;
-    if( n == 1 ) ans = 20;
-    else if( n == 2 ) ans = 36;
-    else if( n == 3) ans = 51;
-    else if( n >= 4 ){
-        ans += 44*(n/4L);
-        ll rem = n%4;
-        if( rem == 1 ) ans += 20+12;
-        else if( rem == 2 ) ans += 36+8;
-        else if( rem == 3) ans += 51+4;
-        else ans += 16;
+    cin >> n >> q;
+    arr.resize(n);
+    for( auto &x: arr ) cin >> x;
+    vl prefix(n);
+    prefix[0] = arr[0];
+    loop(i, 1, n){
+        prefix[i] = prefix[i-1]^arr[i];
     }
-    cout << ans << endl;
+    // print(prefix, n);
+    loop(i, 0, q){
+        cin >> l >> r;
+        ll cur;
+        ll ans = 2147483648-1;
+        if( l == 1 ) cur = prefix[r-1];
+        else cur = prefix[r-1]^prefix[l-2];
+        // cerr << cur << endl;
+        for( int i = 0; i <= 31; i++ ){
+            if( cur&(1<<i) ){
+                ans &= ~(1<<i);
+            }
+        }
+        cout << ans << endl;
+    }
 }
 
 int main(){

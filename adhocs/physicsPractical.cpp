@@ -1,4 +1,5 @@
 //===============Template==================
+#include <algorithm>
 #include <bits/stdc++.h>
 // #include <boost/lexical_cast.hpp> // for lexical_cast() 
 using namespace std;
@@ -186,22 +187,18 @@ void file_i_o(){
 
 //=================Template Ends=====================
 
-ll n, m, k, p, q;
-
+int n, m, k, p, q;
+vi arr;
+            
 void run_case(){
     cin >> n;
-    // 1 ->20, 2->36, 3->51, 4->44
-    ll ans = 0L;
-    if( n == 1 ) ans = 20;
-    else if( n == 2 ) ans = 36;
-    else if( n == 3) ans = 51;
-    else if( n >= 4 ){
-        ans += 44*(n/4L);
-        ll rem = n%4;
-        if( rem == 1 ) ans += 20+12;
-        else if( rem == 2 ) ans += 36+8;
-        else if( rem == 3) ans += 51+4;
-        else ans += 16;
+    arr.resize(n);
+    for( auto &x: arr ) cin >> x;
+    ll ans = inf;
+    sort(all(arr));
+    loop(i, 0, n){
+        ll x = upper_bound(all(arr), arr[i]*2) - arr.begin();
+        ans = min(ans, i+n-x);
     }
     cout << ans << endl;
 }
@@ -210,17 +207,11 @@ int main(){
     clock_t begin = clock();
     // sieve(P_MAX);
     file_i_o();
-    // int tests = 1;
-    int tests;
-    cin >> tests;
+    int tests = 1;
 
     while(tests-- > 0)
         run_case();
 
-    #ifndef ONLINE_JUDGE
-    clock_t end = clock();
-        cout << "\n\nExecuted In: " << double(end - begin) /CLOCKS_PER_SEC << " seconds" << endl;
-    #endif
     return 0;
 }
 

@@ -186,22 +186,33 @@ void file_i_o(){
 
 //=================Template Ends=====================
 
-ll n, m, k, p, q;
+const int modd = 1000000009;
+const int MAX = 1000007;
+int n, m, k, p, q;
+vi arr;
 
 void run_case(){
     cin >> n;
-    // 1 ->20, 2->36, 3->51, 4->44
-    ll ans = 0L;
-    if( n == 1 ) ans = 20;
-    else if( n == 2 ) ans = 36;
-    else if( n == 3) ans = 51;
-    else if( n >= 4 ){
-        ans += 44*(n/4L);
-        ll rem = n%4;
-        if( rem == 1 ) ans += 20+12;
-        else if( rem == 2 ) ans += 36+8;
-        else if( rem == 3) ans += 51+4;
-        else ans += 16;
+    arr.resize(n);
+    bool flag = false;
+    for( auto &x: arr ){ 
+        cin >> x;
+        if( x == 1 ) flag = true;
+    }
+    if( !flag ) {
+        cout<< 0 << endl;
+        return;
+    }
+    ll ans = 1L;
+    for( int i = 0; i < n-1; i++){
+        if( arr[i] == 1 ){
+            for( int j= i+1; j < n; j++ ){
+                if( arr[j] == 1 ){
+                    ans *= (j-i);
+                    break;
+                }
+            }
+        }
     }
     cout << ans << endl;
 }
@@ -210,10 +221,7 @@ int main(){
     clock_t begin = clock();
     // sieve(P_MAX);
     file_i_o();
-    // int tests = 1;
-    int tests;
-    cin >> tests;
-
+    int tests = 1;
     while(tests-- > 0)
         run_case();
 

@@ -1,5 +1,6 @@
 //===============Template==================
 #include <bits/stdc++.h>
+#include <vector>
 // #include <boost/lexical_cast.hpp> // for lexical_cast() 
 using namespace std;
 
@@ -186,22 +187,38 @@ void file_i_o(){
 
 //=================Template Ends=====================
 
-ll n, m, k, p, q;
-
+const int modd = 1000000009;
+const int MAX = 1000007;
+ll xa, xb, ya, yb;
+ll a, b, c, x, y, z;
+int n;
+vector<pair<pll, ll> > rad;
+            
 void run_case(){
+    cin >> xa >> ya >> xb >> yb;
     cin >> n;
-    // 1 ->20, 2->36, 3->51, 4->44
-    ll ans = 0L;
-    if( n == 1 ) ans = 20;
-    else if( n == 2 ) ans = 36;
-    else if( n == 3) ans = 51;
-    else if( n >= 4 ){
-        ans += 44*(n/4L);
-        ll rem = n%4;
-        if( rem == 1 ) ans += 20+12;
-        else if( rem == 2 ) ans += 36+8;
-        else if( rem == 3) ans += 51+4;
-        else ans += 16;
+    rad.resize(n);
+    loop(i, 0, n){
+        cin >> rad[i].ff.ff >> rad[i].ff.ss >> rad[i].ss;
+    }
+    auto check = [](pll a, pair<pll, ll> b){
+        x = abs(a.ff - b.ff.ff);
+        y = abs(a.ss - b.ff.ss);
+        if( x*x + y*y <= b.ss*b.ss ) return 1;
+        return 0;
+    };
+    auto isokaY = [=](ll x, ll y){
+        for( int i = 0; i < n; i++ ){
+            if( check({x, y}, rad[i]) ) return 0;
+        }
+        return 1;
+    };
+    ll ans = 0;
+    for( int i = min(xa, xb); i <= max(xa, xb); i++ ){
+        ans += isokaY(i, ya) + isokaY(i, yb);
+    }
+    for( int i = min(ya, yb)+1; i < max(ya, yb); i++ ){
+        ans += isokaY(xa, i) + isokaY(xb, i);
     }
     cout << ans << endl;
 }
@@ -210,9 +227,7 @@ int main(){
     clock_t begin = clock();
     // sieve(P_MAX);
     file_i_o();
-    // int tests = 1;
-    int tests;
-    cin >> tests;
+    int tests = 1;
 
     while(tests-- > 0)
         run_case();
