@@ -2,7 +2,6 @@
 #include <bits/stdc++.h>
 // #include <boost/lexical_cast.hpp> // for lexical_cast() 
 using namespace std;
-
 #define endl            '\n' 
 #define ll              long long int
 #define ld              long double
@@ -14,37 +13,28 @@ using namespace std;
 #define mid(l, r)       (l+(r-l)/2)
 #define loop(i, a, b)   for(int i=(a); i<b; i++)
 #define loopr(i, a, b)  for(int i=(a); i>b; i--)
-
 #define sz(a)           int((a).size())
 #define all(c)          c.begin(), c.end()
 #define allr(c)         c.rbegin(), c.rend()
-
-#define present(container, element) \
-    (container.find(element) != container.end())
-#define vpresent(container, element) \
-        (find(all(container),element) != container.end())
-
 #define print(dp, n); \
     loop(i, 0, n){cerr << dp[i] << " ";}cerr << endl; 
-
+#define printPair(pr, n); \
+    loop(i, 0, n){cerr << pr[i].ff << " " << pr[i].ss << " ";}cerr << endl; 
 #define countsetbits(i)\
     __builtin_popcount(i)
 typedef pair< ll,ll > pll;
 typedef pair< int, int> pii;
 typedef pair< double, double> pdd;
-
 typedef vector< long long int > vl;
 typedef vector< int > vi;
 typedef vector< pii > vpii;
 typedef vector< pll > vpll;
 typedef vector< string > vs;
 typedef vector< double > vd;
-
 typedef vector< vi > vvi;
 typedef vector< vl > vvl;
 const string YES = "YES";
 const string NO = "NO";
-
 
 //sieve of eratosthenes 
 vector<int> smallest_factor;
@@ -68,7 +58,17 @@ void sieve(int maximum) {
                 }
         }
 }
-
+long long binpow(long long a, long long b, long long m) {
+    a %= m;
+    long long res = 1;
+    while (b > 0) {
+        if (b & 1)
+            res = res * a % m;
+        a = a * a % m;
+        b >>= 1;
+    }
+    return res;
+}
 // __gcd(m, n)
 ll gcd(ll a, ll b)
 {
@@ -139,7 +139,6 @@ struct DisjointSet{
         else parent[x] = y;
         return true;
     }
-
 };
 //function to get the MST, its cost and edges included
 pair<int, vector < Edge > > getMST(int n, vector< Edge > edges){
@@ -162,7 +161,6 @@ pair<int, vector < Edge > > getMST(int n, vector< Edge > edges){
     if( res.size() != n-1 ) return make_pair(inf, vector< Edge >());
     return make_pair(cost, res);
 }
-
 template <class A, class B>
 auto findMin(A a, B b) -> decltype(a < b ? a : b)
 {
@@ -170,7 +168,6 @@ auto findMin(A a, B b) -> decltype(a < b ? a : b)
 }
 //Type Inference refers to automatic deduction of the data type of an expression in a programming language.
 //Auto lets you declare a variable with particular type whereas decltype lets you extract the type from the variable so decltype is sort of an operator that evaluates the type of passed expression.
-
 void file_i_o(){
     ios_base::sync_with_stdio(0);
     cin.tie(0);
@@ -183,16 +180,15 @@ void file_i_o(){
 }
 // lexical_cast() converts a int into string 
 //   string stri = boost::lexical_cast<string>(i_val);  
-
 //=================Template Ends=====================
 
 const int modd = 1000000009;
 const int MAX = 1000007;
-int n, m, k, p, q;
+int tests;
+int n, m;
 vi arr;
-            
-void run_case(){
 
+void run_case(){
 }
 
 int main(){
@@ -200,10 +196,9 @@ int main(){
     // sieve(P_MAX);
     file_i_o();
     // int tests = 1;
-    int tests;
     cin >> tests;
 
-    while(tests-- > 0)
+    for( int i = 1; i <= tests; i++ )
         run_case();
 
     #ifndef ONLINE_JUDGE
@@ -212,7 +207,6 @@ int main(){
     #endif
     return 0;
 }
-
 //Debug
 //1. size of vi and other containers if applicable
 //2. look for type conversion, char to int

@@ -310,10 +310,9 @@ mod_int inv_permute(int64_t n, int64_t r) {
 
 ll mod = 100000009+7;
 ll n, k;
-ll arr[100005];
+vl arr;
 
 void run_case(){
-
 }
 
 int main(){
