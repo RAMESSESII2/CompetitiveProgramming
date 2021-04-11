@@ -1,4 +1,4 @@
-//====================Template==================
+//===============Template==================
 #include <bits/stdc++.h>
 // #include <boost/lexical_cast.hpp> // for lexical_cast() 
 using namespace std;
@@ -6,11 +6,11 @@ using namespace std;
 #define endl            '\n' 
 #define ll              long long int
 #define ld              long double
-#define mod             1000000007
 #define pb              push_back
 #define ff              first
 #define ss              second
-#define inf             1e18
+#define infl             1e18
+#define inf              1e9
 #define mid(l, r)       (l+(r-l)/2)
 #define loop(i, a, b)   for(int i=(a); i<b; i++)
 #define loopr(i, a, b)  for(int i=(a); i>b; i--)
@@ -19,8 +19,6 @@ using namespace std;
 #define all(c)          c.begin(), c.end()
 #define allr(c)         c.rbegin(), c.rend()
 
-#define tr(container, it) \
-    for(typeof(container.begin()) it = container.begin(); it != container.end(); it++)
 #define present(container, element) \
     (container.find(element) != container.end())
 #define vpresent(container, element) \
@@ -28,12 +26,12 @@ using namespace std;
 
 #define print(dp, n); \
     loop(i, 0, n){cerr << dp[i] << " ";}cerr << endl; 
-#define print2(dp, a, n, b, m); \
-    loop(i, a, n){loop(j, b, m){cerr << dp[i][j] << " ";}cerr << endl;} 
-#define countetbits(i)\
+
+#define countsetbits(i)\
     __builtin_popcount(i)
 typedef pair< ll,ll > pll;
 typedef pair< int, int> pii;
+typedef pair< double, double> pdd;
 
 typedef vector< long long int > vl;
 typedef vector< int > vi;
@@ -44,7 +42,8 @@ typedef vector< double > vd;
 
 typedef vector< vi > vvi;
 typedef vector< vl > vvl;
-
+const string YES = "YES";
+const string NO = "NO";
 
 void file_i_o(){
     ios_base::sync_with_stdio(0);
@@ -59,30 +58,33 @@ void file_i_o(){
 // lexical_cast() converts a int into string 
 //   string stri = boost::lexical_cast<string>(i_val);  
 
-//===========================Template Ends==================================
+//=================Template Ends=====================
 
-int N, Q, X, Y, R;
-int x, y;
+int N, Q;
+double X, Y, R;
+double x, y;
 int k;
-vector<pair<pii, int> > centers;
-int krange = 1000001;
-vl numberofcircles(1000005);
-            
-void run_case(){
+const int krange = 10000006;
+int numberofcircles[krange];
+vector<pair<pair<double, double>, double> > centers;
+
+int main(){
+    clock_t begin = clock();
+    file_i_o();
     cin >> N >> Q;
     centers.resize(N);
     loop(i, 0, N){ 
         cin >> X >> Y >> R;
         centers[i] = {{X,Y}, R};
     }
-    auto euclid = [](const pii &a, const pii &b) -> ll{ 
+    auto euclid = [](pii a, pii b) -> double{ 
         x = a.ff-b.ff;
         y = a.ss-b.ss;
-        return (sqrt(x*x*1LL+ y*y*1LL))*1LL  ;
+        return (sqrt(x*x+ y*y))  ;
     };
-    ll distBtwCenters;
-    int r1, r2;
-    int maxm = 0,minm = 0;
+    double distBtwCenters = 0;
+    double r1 = 0, r2 = 0;
+    double maxm = 0,minm = 0;
     loop(i, 0, N-1){ 
         loop(j, i+1, N){ 
             r1 = centers[i].ss;
@@ -112,30 +114,21 @@ void run_case(){
                     minm = max(r1, r2)-distBtwCenters-min(r1,r2);}
             }
             // cerr << maxm <<" " << minm << endl;
-            numberofcircles[minm]++;
-            numberofcircles[maxm+1]--;
+            if( maxm < 0) maxm = 0;
+            if( minm < 0  ) minm = 0;
+            if( maxm > 1e7 ) continue;
+            numberofcircles[(int)ceil(minm)]+=1;
+            numberofcircles[(int)floor(maxm)+1]-=1;
         }
     }
-    for( int i = 1; i <= krange; i++){ 
+    for( int i = 1; i < krange-2; i++){ 
         numberofcircles[i] += numberofcircles[i-1];
     }
     // print(numberofcircles, 17);
     loop(i, 0, Q){ 
         cin >> k;
         cout << numberofcircles[k] << endl;
-    }
-}
-
-int main(){
-    clock_t begin = clock();
-    // sieve(P_MAX);
-    // file_i_o();
-    int tests = 1;
-    // int tests;
-    // cin >> tests;
-
-    while(tests-- > 0)
-        run_case();
+    }   
 
     #ifndef ONLINE_JUDGE
     clock_t end = clock();
@@ -145,7 +138,6 @@ int main(){
 }
 
 //Debug
-//1. input for test
+//1. size of vi and other containers if applicable
 //2. look for type conversion, char to int
 //3. look for declaration of large arrays.
-
