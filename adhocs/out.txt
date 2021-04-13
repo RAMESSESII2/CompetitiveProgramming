@@ -1,6 +1,14 @@
-0
-1
-0
+9
+9
+19
+18
+19
+19
+16
+28
+10
+82
+19
 
 
-Executed In: 0.057323 seconds
+Executed In: 0.000414 seconds
