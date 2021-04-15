@@ -186,29 +186,32 @@ const int modd = 1000000009;
 const int MAX = 1000007;
 int tests;
 int n, m;
+string x, y;
 vi arr;
-int a, b, c;
+string s;
+
+int pulses(int sum,int last, int pos){
+    if( sum == 0 ) return 0;
+    if( pos >= n-1 ) return inf;
+    return min(pulses(sum - (x[pos]-'0'),x[pos+1]-'0',  pos + 1) + 1, pulses(sum, last*10 + (x[pos+1]-'0'), pos+1));
+}
 
 void run_case(){
-    cin >> a >> b >>c;
-    string x = "", y = "";
-    x = "1";
-    loop(i, 0, a-1){
-        x += "0";
-    }
-    loop(i, 0, b-c+1){
-        y += "1";
-    }
-    loop(i, 0, c-1) y += "0";
-    cout << x << " " << y << endl;
+    cin >> s;
+    int ind = s.find("=");
+    x = s.substr(0, ind);
+    y = s.substr(ind+1);
+    n = (int)x.length();
+    cerr << x << " " << y << endl;
+    cout << pulses(stoi(y), x[0]-'0', 0);
 }
 
 int main(){
     clock_t begin = clock();
     // sieve(P_MAX);
     file_i_o();
-    // int tests = 1;
-    cin >> tests;
+    int tests = 1;
+    // cin >> tests;
 
     for( int i = 1; i <= tests; i++ )
         run_case();

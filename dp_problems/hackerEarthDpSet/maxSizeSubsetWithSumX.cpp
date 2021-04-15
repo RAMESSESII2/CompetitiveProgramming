@@ -183,24 +183,29 @@ void file_i_o(){
 //=================Template Ends=====================
 
 const int modd = 1000000009;
-const int MAX = 1000007;
+const int MAX = 100007;
 int tests;
 int n, m;
 vi arr;
-int a, b, c;
+int dp[1000][MAX];
+
+int maxSubset(int x, int p){
+    if( x == 0 ) return 0;
+    if( x < 0 || p < 0) return -inf;
+    int &ans = dp[x][p];
+    if( ans != -1 ) return ans;
+    ans = 0;
+    ans = max( maxSubset(x-arr[p], p-1) + 1, (maxSubset(x, p-1)) );
+    return ans;
+}
 
 void run_case(){
-    cin >> a >> b >>c;
-    string x = "", y = "";
-    x = "1";
-    loop(i, 0, a-1){
-        x += "0";
-    }
-    loop(i, 0, b-c+1){
-        y += "1";
-    }
-    loop(i, 0, c-1) y += "0";
-    cout << x << " " << y << endl;
+    cin >> n;
+    arr.resize(n);
+    for(auto &x : arr) cin >> x;
+    memset(dp, -1, sizeof dp);
+    cin >> m;
+    cout << maxSubset(m, n-1) << endl;
 }
 
 int main(){

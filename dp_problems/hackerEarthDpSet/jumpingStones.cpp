@@ -182,34 +182,35 @@ void file_i_o(){
 //   string stri = boost::lexical_cast<string>(i_val);  
 //=================Template Ends=====================
 
-const int modd = 1000000009;
+const int modd = 1000000007;
 const int MAX = 1000007;
 int tests;
-int n, m;
-vi arr;
-int a, b, c;
+ll n;
+ll k;
+ll dp[MAX];
+
+ll wasys(int pos){
+    if( pos == n ) return 1L;
+    ll ans = 0L;
+    if( dp[pos] != -1 ) return dp[pos];
+    for(int i = 1; i <= k; i++ ){
+        if( pos + i <= n) ans = ((wasys(pos+i)%modd) + (ans%modd))%modd;
+    }
+    return dp[pos] = ans%modd;
+}
 
 void run_case(){
-    cin >> a >> b >>c;
-    string x = "", y = "";
-    x = "1";
-    loop(i, 0, a-1){
-        x += "0";
-    }
-    loop(i, 0, b-c+1){
-        y += "1";
-    }
-    loop(i, 0, c-1) y += "0";
-    cout << x << " " << y << endl;
+    cin >>n >> k;
+    fill(dp, dp+n, -1);
+    cout << wasys(1) << endl;
+    
 }
 
 int main(){
     clock_t begin = clock();
     // sieve(P_MAX);
     file_i_o();
-    // int tests = 1;
-    cin >> tests;
-
+    int tests = 1;
     for( int i = 1; i <= tests; i++ )
         run_case();
 

@@ -185,30 +185,32 @@ void file_i_o(){
 const int modd = 1000000009;
 const int MAX = 1000007;
 int tests;
-int n, m;
+int n, k;
 vi arr;
-int a, b, c;
 
 void run_case(){
-    cin >> a >> b >>c;
-    string x = "", y = "";
-    x = "1";
-    loop(i, 0, a-1){
-        x += "0";
+    cin >> n >> k;
+    string s = "";
+    for( int i = 0; i < k; i++ ){
+        s += (char)('a'+i);
+        for( int j = i+1; j < k; j++){
+            s += char('a'+i);
+            s += char('a'+j);
+        }
     }
-    loop(i, 0, b-c+1){
-        y += "1";
+    int m = sz(s);
+    loop(i, 0, n){
+        cout << s[i%m];
     }
-    loop(i, 0, c-1) y += "0";
-    cout << x << " " << y << endl;
+    cout << endl;
 }
 
 int main(){
     clock_t begin = clock();
     // sieve(P_MAX);
     file_i_o();
-    // int tests = 1;
-    cin >> tests;
+    int tests = 1;
+    // cin >> tests;
 
     for( int i = 1; i <= tests; i++ )
         run_case();

@@ -185,30 +185,33 @@ void file_i_o(){
 const int modd = 1000000009;
 const int MAX = 1000007;
 int tests;
-int n, m;
-vi arr;
-int a, b, c;
+int n, m, q;
+vi color;
 
 void run_case(){
-    cin >> a >> b >>c;
-    string x = "", y = "";
-    x = "1";
-    loop(i, 0, a-1){
-        x += "0";
+    cin >> n >> q;
+    color.resize(n);
+    for( auto &x : color) cin >> x;
+    loop(j, 0, q){
+        cin >> m;
+        int i;
+        for( i = 0; i < n; i++){
+            if( color[i] == m ){
+                cout << i+1 << " ";
+                break;
+            }
+        }
+        rotate(color.begin(), color.begin() + i, color.begin()+i+1);
+        // print(color, n);
     }
-    loop(i, 0, b-c+1){
-        y += "1";
-    }
-    loop(i, 0, c-1) y += "0";
-    cout << x << " " << y << endl;
 }
 
 int main(){
     clock_t begin = clock();
     // sieve(P_MAX);
     file_i_o();
-    // int tests = 1;
-    cin >> tests;
+    int tests = 1;
+    // cin >> tests;
 
     for( int i = 1; i <= tests; i++ )
         run_case();
