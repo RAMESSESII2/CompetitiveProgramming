@@ -1,6 +1,8 @@
 //===============Template==================
 #include <algorithm>
+#include <bits/c++config.h>
 #include <bits/stdc++.h>
+#include <ios>
 #include <vector>
 // #include <boost/lexical_cast.hpp> // for lexical_cast() 
 using namespace std;
@@ -38,138 +40,6 @@ typedef vector< vl > vvl;
 const string YES = "YES";
 const string NO = "NO";
 
-//sieve of eratosthenes 
-vector<int> smallest_factor;
-vector<bool> prime;
-vector<int> primes;
-const int P_MAX = int(1e5) + 5;
-void sieve(int maximum) {
-    maximum = max(maximum, 1);
-    smallest_factor.assign(maximum + 1, 0);
-    prime.assign(maximum + 1, true);
-    prime[0] = prime[1] = false;
-    primes = {};
-    for (int p = 2; p <= maximum; p++)
-        if (prime[p]) {
-            smallest_factor[p] = p;
-            primes.push_back(p);
-            for (int64_t i = int64_t(p) * p; i <= maximum; i += p)
-                if (prime[i]) {
-                    prime[i] = false;
-                    smallest_factor[i] = p;
-                }
-        }
-}
-long long binpow(long long a, long long b, long long m) {
-    a %= m;
-    long long res = 1;
-    while (b > 0) {
-        if (b & 1)
-            res = res * a % m;
-        a = a * a % m;
-        b >>= 1;
-    }
-    return res;
-}
-// __gcd(m, n)
-ll gcd(ll a, ll b)
-{
-    while (true)
-    {
-        if (a == 0) return b;
-        b %= a;
-        if (b == 0) return a;
-        a %= b;
-    }
-}
-ll lcm(ll a, ll b)
-{
-    ll temp = gcd(a, b);
-
-    return temp ? (a / temp * b) : 0;
-}
-// Returns first i in [l, r] s.t. predicate(i) is true. Never evaluates r.
-template <typename I, typename P> I binarysearch(const P &predicate, I l, I r) {
-    l--;
-    while (r - l > 1) {
-        auto mid = l + (r - l) / 2;
-        if (predicate(mid))
-            r = mid;
-        else
-            l = mid;
-    }
-    return r;
-}
-//MST template
-struct Edge{
-    int from, to, weight, index;
-    bool del;
-    Edge(int f, int t, int w, int idx){ 
-        from = f;
-        to = t;
-        weight = w;
-        index = idx;
-        del = false;
-    }
-    bool operator <(const Edge& e)const{
-        return weight > e.weight;
-    }
-    bool operator ==(const Edge& e)const{ 
-        return ( from == e.from && to == e.to && weight == e.weight );
-    }
-};
-//disjoint set union template
-struct DisjointSet{
-    vi ranks;
-    vi parent;
-    DisjointSet(int n){
-        ranks.resize(n, 0);
-        parent.resize(n);
-        for( int i = 0; i < n; i++) parent[i] = i;
-    }
-    int findSet(int v){
-        return parent[v] = ((parent[v] == v)? v: findSet(parent[v]));
-    }
-    bool unionSet(int u, int v){
-        int x = findSet(u);
-        int y = findSet(v);
-        if( x == y ) return false;
-        if( ranks[x] == ranks[y] ) ranks[x]++;
-        if( ranks[x] > ranks[y] ){
-            parent[y] = x;
-        }
-        else parent[x] = y;
-        return true;
-    }
-};
-//function to get the MST, its cost and edges included
-pair<int, vector < Edge > > getMST(int n, vector< Edge > edges){
-    int cost = 0;
-    priority_queue< Edge > q;
-    vector < Edge > res;
-
-    DisjointSet djSet(n);
-    for( int i = 0; i < edges.size(); i++ ){
-        if( !edges[i].del )q.push(edges[i]);
-    }
-    while( !q.empty() ){ 
-        Edge curE = q.top();
-        q.pop();
-        if( djSet.unionSet(curE.from, curE.to) ){ 
-            cost += curE.weight;
-            res.push_back(curE);
-        }
-    }
-    if( res.size() != n-1 ) return make_pair(inf, vector< Edge >());
-    return make_pair(cost, res);
-}
-template <class A, class B>
-auto findMin(A a, B b) -> decltype(a < b ? a : b)
-{
-    return (a < b) ? a : b;
-}
-//Type Inference refers to automatic deduction of the data type of an expression in a programming language.
-//Auto lets you declare a variable with particular type whereas decltype lets you extract the type from the variable so decltype is sort of an operator that evaluates the type of passed expression.
 void file_i_o(){
     ios_base::sync_with_stdio(0);
     cin.tie(0);
@@ -180,8 +50,6 @@ void file_i_o(){
     freopen("cerr.txt", "w", stderr);
 #endif
 }
-// lexical_cast() converts a int into string 
-//   string stri = boost::lexical_cast<string>(i_val);  
 //=================Template Ends=====================
 
 const int modd = 1000000009;
@@ -194,12 +62,16 @@ vector<vector<pair<int, ll> > > adj;
 vl cb;
 vl dist;
 vl leaf;
+vl visited;
 
 void  dfs(int v ){
+    if( visited[v] ) return;
+    visited[v] = true;
     for( auto [x, y]: adj[v] ){
+        if( visited[x] )continue;
         cb[x] = cb[v]+1;
         dist[x] = dist[v] + y*cb[v];
-        if( adj[x].empty() ) leaf.pb(dist[x]);
+        // if( adj[x].empty() ) leaf.pb(dist[x]);
         dfs(x);
     }
 }
@@ -209,6 +81,7 @@ void run_case(){
     energy.resize(m+1);
     loop(i, 1, m+1) cin >> energy[i];
     adj.resize(n+1);
+    visited.resize(n+1, false);
     cb.resize(n+1);
     dist.resize(n+1);
     cb[1] = 1;
@@ -217,39 +90,37 @@ void run_case(){
         cin >> x >> y >> d;
         // edge[i] = {{x, y}, d};
         adj[x].pb({y, d});
+        adj[y].pb({x, d});
+    }
+    if( n == 1  ) {
+        cout << 0 << endl;
+        return;
     }
     dfs(1);
-    // print(leaf, sz(leaf));
-    // loop(i, 0, sz(leaf)) cout << dist[leaf[i]] << endl;
+    loop(i, 2, n+1){
+        if( sz(adj[i]) == 1 ) leaf.pb(dist[i]);
+    }
     sort(all(leaf));
     sort(all(energy));
-    // loop(i, 0, sz(leaf))cerr << dist[leaf[i]] << " ";
-    // cerr << endl;
-    // loop(i, 0, sz(energy))cerr << energy[i] << " ";
-    // cerr << endl;
+    print(leaf, sz(leaf));
+    cerr << endl;
+    loop(i, 0, sz(energy))cerr << energy[i] << " ";
+    cerr << endl;
     ll ans = 0;
-    int i = 0;
-    loop(j, 1, m+1){
-        if( i >= sz(leaf) ) break;
-        if( energy[j] >= leaf[i]){
-            // cerr << energy[j] << " " << leaf[i] << endl;
-            ans++;
-            i++;
+    int i = 1, j = 0;
+    while( i<= m && j < sz(leaf) ){
+        if( energy[i] >= leaf[j]){
+            i++; j++; ans++;
         }
+        else i++;
     }
-    // loop(j, 0, sz(leaf)){
-    //     if( i > n+1 ) break;
-    //     int ind = lower_bound(energy.begin() + i, energy.end(), dist[leaf[j]])-energy.begin();
-    //     // cerr << ind << endl;
-    //     if( ind != m+1 ) ans++;
-    //     i = ind+1;
-    // }
     cout << ans << endl;
     energy.clear();
     adj.clear();
     dist.clear();
     cb.clear();
     leaf.clear();
+    visited.clear();
 }
 
 int main(){
@@ -268,8 +139,3 @@ int main(){
     #endif
     return 0;
 }
-//Debug
-//1. size of vi and other containers if applicable
-//2. look for type conversion, char to int
-//3. look for declaration of large arrays.
-

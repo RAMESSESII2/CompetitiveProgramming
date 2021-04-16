@@ -1,6 +1,6 @@
 //===============Template==================
 #include <bits/stdc++.h>
-// #include <boost/lexical_cast.hpp> // for lexical_cast() 
+#include <cstring>
 using namespace std;
 #define endl            '\n' 
 #define ll              long long int
@@ -18,8 +18,6 @@ using namespace std;
 #define allr(c)         c.rbegin(), c.rend()
 #define print(dp, n); \
     loop(i, 0, n){cerr << dp[i] << " ";}cerr << endl; 
-#define printPair(pr, n); \
-    loop(i, 0, n){cerr << pr[i].ff << " " << pr[i].ss << " ";}cerr << endl; 
 #define countsetbits(i)\
     __builtin_popcount(i)
 typedef pair< ll,ll > pll;
@@ -35,7 +33,6 @@ typedef vector< vi > vvi;
 typedef vector< vl > vvl;
 const string YES = "YES";
 const string NO = "NO";
-
 void file_i_o(){
     ios_base::sync_with_stdio(0);
     cin.tie(0);
@@ -48,44 +45,29 @@ void file_i_o(){
 }
 
 const int modd = 1000000009;
-const int MAX = 1000007;
-int tests;
-int n, m;
-int q, k, x;
-vl arr;
-set<pair<ll, ll> > se;
-
+const int MAX = 5005;
+int n;
+int v[MAX];
+vi arr;
+ll mex;
+            
 void run_case(){
     cin >> n;
     arr.resize(n);
-    int i = 1;
-    for( auto &x : arr ){
-        cin >> x;
-        se.insert({i, x});
-        i++;
-    }
-    cin >> q;
-    while( q-- ){
-        cin >> x >> k;
-        ll d = 0L;
-        auto it = se.lower_bound({x, 0});
-        while( it != se.end() && k >  0){
-            if( it->ss > k ){
-                d += (k*(it->ff - x));
-                se.insert({it->ff, it->ss - k});
-                se.erase(it);
-                k = 0;
+    for( auto &x : arr ) cin >> x;
+    ll ans = 0L;
+    loop(i, 0, n){
+        mex = 1L;
+        memset(v, 0, sizeof v);
+        for( int j = i; j < n; j++ ){
+            if( arr[j] < MAX ){
+                v[arr[j]] = 1;
             }
-            else{
-                d += (it->ss*(it->ff - x));
-                k -= it->ss;
-                auto itr = it;
-                it++;
-                se.erase(itr);
-            }
+            while(v[mex]) mex++;
+            ans += mex;
         }
-        cout << d << endl;
     }
+    cout << ans << endl;
 }
 
 int main(){
@@ -94,7 +76,7 @@ int main(){
     file_i_o();
     int tests = 1;
 
-    for( int i = 1; i <= tests; i++ )
+    while(tests-- > 0)
         run_case();
 
     #ifndef ONLINE_JUDGE
@@ -103,8 +85,4 @@ int main(){
     #endif
     return 0;
 }
-//Debug
-//1. size of vi and other containers if applicable
-//2. look for type conversion, char to int
-//3. look for declaration of large arrays.
 
