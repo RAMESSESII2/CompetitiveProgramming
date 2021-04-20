@@ -182,14 +182,24 @@ void file_i_o(){
 //   string stri = boost::lexical_cast<string>(i_val);  
 //=================Template Ends=====================
 
-const int modd = 1000000009;
+const int modd = 1e9+7;
 const int MAX = 1000007;
 int tests;
 int n, m;
 vi arr;
 
+ll fact(int n){
+    ll ans = 1L;
+    while( n){
+        ans = ((ans%modd) * (n %modd))%modd;
+        --n;
+    }
+    return ans%modd;
+}
+
 void run_case(){
-    :w
+    cin >> n >> m;
+    cout << binpow(n, m, modd)%modd << endl;
 }
 
 int main(){

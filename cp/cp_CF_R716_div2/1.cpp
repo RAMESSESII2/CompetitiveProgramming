@@ -1,5 +1,7 @@
 //===============Template==================
 #include <bits/stdc++.h>
+#include <cmath>
+#include <vector>
 // #include <boost/lexical_cast.hpp> // for lexical_cast() 
 using namespace std;
 #define endl            '\n' 
@@ -186,15 +188,33 @@ const int modd = 1000000009;
 const int MAX = 1000007;
 int tests;
 int n, m;
-vi arr;
+vector<double> arr;
 
 void run_case(){
-    cin >> n >> m;
+    cin >> n;
     arr.resize(n);
-    for( auto &x : arr ) cin >> x;
-    set< int > st(all(arr));
-    int s = n-m;
-    cout << min(s, sz(st))<< endl;;
+    // map< int , int> mp;
+    for( auto &x: arr ){
+        cin >> x;
+        // mp[x]++;
+    }
+    loop(i, 0, n){
+        if( (double)sqrt(arr[i]) != floor((double)sqrt(arr[i]) ) ){
+            cout << "YES\n";
+            return;
+        }
+    }
+    // for( auto x: mp){
+    //     if( (x.ss &1 ) && sqrt( x.ff )*sqrt(x.ff) != x.ff ){
+    //         cout << "YES\n";
+    //         return;
+    //     }
+    //     if(( x.ss &1 ) && x.ss > 1 ){
+    //         cout << "YES\n";
+    //         return;
+    //     }
+    // }
+    cout << "NO\n";
 }
 
 int main(){
