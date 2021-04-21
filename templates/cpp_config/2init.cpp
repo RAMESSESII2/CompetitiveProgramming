@@ -30,8 +30,8 @@ typedef vector< string > vs;
 typedef vector< double > vd;
 typedef vector< vi > vvi;
 typedef vector< vl > vvl;
-const string YES = "YES";
-const string NO = "NO";
+const string YES = "YES\n";
+const string NO = "NO\n";
 void file_i_o(){
     ios_base::sync_with_stdio(0);
     cin.tie(0);
@@ -43,8 +43,9 @@ void file_i_o(){
 #endif
 }
 
-const int modd = 1000000009;
+const int modd = 1000000007;
 const int MAX = 1000007;
+int tests;
 int n;
 vi arr;
             
@@ -55,11 +56,9 @@ int main(){
     clock_t begin = clock();
     // sieve(P_MAX);
     file_i_o();
-    // int tests = 1;
-    int tests;
+    tests = 1;
     cin >> tests;
-
-    while(tests-- > 0)
+    for(int it = 1; it <= tests; it++ )
         run_case();
 
     #ifndef ONLINE_JUDGE

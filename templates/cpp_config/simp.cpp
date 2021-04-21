@@ -17,6 +17,7 @@ int main()
 {
     file_i_o();
     ll TC;
+    TC = 1;
     cin >> TC;
     while (TC--)
     {

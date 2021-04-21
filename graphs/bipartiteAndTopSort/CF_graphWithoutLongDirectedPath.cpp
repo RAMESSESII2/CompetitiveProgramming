@@ -1,10 +1,12 @@
 //===============Template==================
+#include <bits/c++config.h>
 #include <bits/stdc++.h>
+#include <vector>
 // #include <boost/lexical_cast.hpp> // for lexical_cast() 
 using namespace std;
-typedef long long int ll;
-typedef long double ld;
 #define endl            '\n' 
+#define ll              long long int
+#define ld              long double
 #define pb              push_back
 #define ff              first
 #define ss              second
@@ -33,8 +35,8 @@ typedef vector< string > vs;
 typedef vector< double > vd;
 typedef vector< vi > vvi;
 typedef vector< vl > vvl;
-const string YES = "YES\n";
-const string NO = "NO\n";
+const string YES = "YES";
+const string NO = "NO";
 
 //sieve of eratosthenes 
 vector<int> smallest_factor;
@@ -182,21 +184,59 @@ void file_i_o(){
 //   string stri = boost::lexical_cast<string>(i_val);  
 //=================Template Ends=====================
 
-const int modd = 1000000007;
-const int MAX = 1000007;
+const int modd = 1000000009;
+const int MAX = 200007;
 int tests;
 int n, m;
-vi arr;
+int x, y;
+vi adj[MAX];
+vector<pii> edges;
+int color[MAX];
 
 void run_case(){
+    cin >> n >> m;
+    edges.resize(m);
+    loop(i, 0, m){
+        cin >> x >> y;
+        adj[x].pb(y);
+        adj[y].pb(x);
+        edges[i] = {x, y};
+    }
+    memset(color, -1, sizeof color);
+    queue<int> q;
+    for( int i = 1; i <= n; i++ ){
+        if( color[i] != -1 ) continue;
+        q.push(i);
+        color[i] = 1;
+        while(!q.empty()){
+            int cur = q.front();
+            q.pop();
+            for( auto x: adj[cur]){
+                if( color[x] != -1 ){
+                    if( color[x] == color[cur] ){
+                        cout << NO << endl;
+                        return;
+                    }
+                    else continue;
+                }
+                color[x] = (1^color[cur]);
+                q.push(x);
+            }
+        }
+    }
+    cout << YES << endl;
+    loop(i, 0, m){
+        cout << (color[edges[i].ff] < color[edges[i].ss]);
+    }
+    cout << endl;
 }
 
 int main(){
     clock_t begin = clock();
     // sieve(P_MAX);
     file_i_o();
-    tests = 1;
-    cin >> tests;
+    int tests = 1;
+    // cin >> tests;
 
     for( int i = 1; i <= tests; i++ )
         run_case();
@@ -211,3 +251,4 @@ int main(){
 //1. size of vi and other containers if applicable
 //2. look for type conversion, char to int
 //3. look for declaration of large arrays.
+
