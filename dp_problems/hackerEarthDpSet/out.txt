@@ -1,5 +1,9 @@
-Yes
-No
+23
+31
+14
+47
+7
+19
 
 
-Executed In: 0.000141 seconds
+Executed In: 0.000175 seconds
