@@ -1,0 +1,6 @@
+Case 1: 20
+Case 2: 5
+Case 3: 64
+
+
+Executed In: 0.000615 seconds
