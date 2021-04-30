@@ -1,6 +1,6 @@
 //===============Template==================
 #include <bits/stdc++.h>
-#include <string>
+#include <vector>
 using namespace std;
 #define endl            '\n' 
 #define ll              long long int
@@ -44,51 +44,85 @@ void file_i_o(){
 #endif
 }
 
+const int modd = 1000000007;
+const int MAX = 200007;
 int tests;
-            
+int n, k, a;
+int x, y, u, v;
+map<int, int> sp;
+vi adj[MAX];
+vector<pii> dist;
+
+void dfs(int v, int p){
+    if( sp[v] ){
+        dist[v] = {v, 0};
+    }
+    else{
+        dist[v].ff = dist[p].ff;
+        dist[v].ss = dist[p].ss + 1;
+    }
+    for( auto x: adj[v] ){
+        if( x == p ) continue;
+        dfs(x, v);
+        if( dist[v].ss > dist[x].ss+1 ){
+            dist[v].ff = dist[x].ff;
+            dist[v].ss = dist[x].ss + 1;
+        }
+    }
+}
+map<int, int> to;
+void dfs2(int a,int p, int dist){
+    if(sp[a]){
+        to[a] = dist;
+    }
+    for( auto x: adj[a]){
+        if( x == p ) continue;
+        dfs2(x, a, dist+1);
+    }
+}
+
 void run_case(){
-    vi row[3], col[3]; 
-    int n, m, q, a, b;
-    string ro, co;
-    cin >> ro  >> co;
-    m = sz(ro);
-    n = sz(co);
-    cin >> q;
-    loop(i, 1, 3) row[i].assign(m+1, -1);
-    loop(i, 1, 3) col[i].assign(n+1, -1);
-    row[1][1] = col[1][1] = min((ro[0]-'0'), (co[0]-'0'));
-    loop(i, 2, m+1){
-        row[1][i] = min(1-row[1][i-1], (ro[i-1]-'0'));
+    cin >> n >> k >> a;
+    sp.clear();
+    int st = 1;
+    loop(i, 0, k){
+        cin >> x;
+        sp[x] = 1;
+        st = x;
     }
-    loop(i, 2, n+1){
-        col[1][i] = min(1-col[1][i-1], (co[i-1]-'0'));
+    dist.clear();
+    dist.resize(n+1);
+    loop(i, 1, n+1)adj[i].clear();
+    loop(i, 1, n){
+        cin >> u >> v;
+        adj[u].pb(v);
+        adj[v].pb(u);
     }
-    // loop(i, 1, 3){
-    //     loop(j, 1, n+1)cerr << col[i][j] << " ";
-    //     cerr << endl;
+    dfs(st, -1);
+    // loop(i, 1, n+1){
+    //     cerr << i <<"  " << dist[i].ff << " " << dist[i].ss << endl;
     // }
-    map<int, int> mp;
-    mp[0] = row[2][2] = col[2][2] = min(1-row[1][2], 1 - col[1][2]);
-    loop(i, 3, m+1){
-        row[2][i] = min(1-row[1][i], 1-row[2][i-1]);
-        mp[2-i] = row[2][i];
-    }
-    loop(i, 3, n+1){
-        col[2][i] = min(1-col[1][i], 1-col[2][i-1]);
-        mp[i-2] = col[2][i];
-    }
-    // loop(i, 1, 3){
-    //     loop(j, 1, m+1)cerr << row[i][j] << " ";
-    //     cerr << endl;
+    to.clear();
+    dfs2(a, -1, 0);
+    // for( auto x: to ){
+    //     cerr << x.ff << " " << x.ss << endl;
     // }
-    string ans;
-    while( q-- ){
-        cin >> a >> b;
-        if( a == 1 ) ans += to_string(1-row[1][b]);
-        else if ( b == 1 ) ans += to_string(1-col[1][a]);
-        else ans += to_string(1-mp[a-b]);
+    vpii ans(n+1, 0);
+    int cur;
+    loop(i,1, n+1){
+        cur = 0;
+        for( auto x: sp){
+            if(cur < to[dist[i].ff]- dist[i].ss){
+
+            }
+        }
+        cout <<to[dist[i].ff]- dist[i].ss << " ";
     }
-    cout << ans << endl;
+    cout <<endl;
+    loop(i,1, n+1){
+        cout << dist[i].ff << " ";
+    }
+    cout <<endl;
 }
 
 int main(){

@@ -1,10 +1,11 @@
 //===============Template==================
+#include <algorithm>
 #include <bits/stdc++.h>
-#include <string>
+// #include <boost/lexical_cast.hpp> // for lexical_cast() 
 using namespace std;
+typedef long long int ll;
+typedef long double ld;
 #define endl            '\n' 
-#define ll              long long int
-#define ld              long double
 #define pb              push_back
 #define ff              first
 #define ss              second
@@ -18,6 +19,8 @@ using namespace std;
 #define allr(c)         c.rbegin(), c.rend()
 #define print(dp, n); \
     loop(i, 0, n){cerr << dp[i] << " ";}cerr << endl; 
+#define printPair(pr, n); \
+    loop(i, 0, n){cerr << pr[i].ff << " " << pr[i].ss << " ";}cerr << endl; 
 #define countsetbits(i)\
     __builtin_popcount(i)
 typedef pair< ll,ll > pll;
@@ -33,6 +36,7 @@ typedef vector< vi > vvi;
 typedef vector< vl > vvl;
 const string YES = "YES\n";
 const string NO = "NO\n";
+
 void file_i_o(){
     ios_base::sync_with_stdio(0);
     cin.tie(0);
@@ -43,60 +47,52 @@ void file_i_o(){
     freopen("cerr.txt", "w", stderr);
 #endif
 }
+// lexical_cast() converts a int into string 
+//   string stri = boost::lexical_cast<string>(i_val);  
+//=================Template Ends=====================
 
+const int modd = 1000000007;
+const int MAX = 1000007;
 int tests;
-            
+int n, m, k, p;
+vi arr;
+
 void run_case(){
-    vi row[3], col[3]; 
-    int n, m, q, a, b;
-    string ro, co;
-    cin >> ro  >> co;
-    m = sz(ro);
-    n = sz(co);
-    cin >> q;
-    loop(i, 1, 3) row[i].assign(m+1, -1);
-    loop(i, 1, 3) col[i].assign(n+1, -1);
-    row[1][1] = col[1][1] = min((ro[0]-'0'), (co[0]-'0'));
-    loop(i, 2, m+1){
-        row[1][i] = min(1-row[1][i-1], (ro[i-1]-'0'));
+    cin >> n >> k >> p;
+    arr.resize(n);
+    for( auto &x : arr ) cin >> x;
+    if( k&1){
+        cout << ((p == 0) ? (*max_element(all(arr))): *min_element(all(arr))) << endl;
+        return;
     }
-    loop(i, 2, n+1){
-        col[1][i] = min(1-col[1][i-1], (co[i-1]-'0'));
+    int bestLarg = -inf, bestSmall = inf;
+    int curL, curS;
+    for( int i =1 ; i < n-1; i++){
+        curL = max(arr[i-1], arr[i+1]);
+        bestSmall = min(bestSmall, curL);
+        curS = min(arr[i-1], arr[i+1]);
+        bestLarg = max(bestLarg, curS);
     }
-    // loop(i, 1, 3){
-    //     loop(j, 1, n+1)cerr << col[i][j] << " ";
-    //     cerr << endl;
-    // }
-    map<int, int> mp;
-    mp[0] = row[2][2] = col[2][2] = min(1-row[1][2], 1 - col[1][2]);
-    loop(i, 3, m+1){
-        row[2][i] = min(1-row[1][i], 1-row[2][i-1]);
-        mp[2-i] = row[2][i];
+    bestSmall = min( bestSmall, arr[1] );
+    bestSmall = min( bestSmall, arr[n-2] );
+    bestLarg = max( bestLarg, arr[1] );
+    bestLarg = max( bestLarg, arr[n-2] );
+    if( n == 2){
+        bestLarg = max(arr[0], arr[1]);
+        bestSmall = min(arr[0], arr[1]);
     }
-    loop(i, 3, n+1){
-        col[2][i] = min(1-col[1][i], 1-col[2][i-1]);
-        mp[i-2] = col[2][i];
-    }
-    // loop(i, 1, 3){
-    //     loop(j, 1, m+1)cerr << row[i][j] << " ";
-    //     cerr << endl;
-    // }
-    string ans;
-    while( q-- ){
-        cin >> a >> b;
-        if( a == 1 ) ans += to_string(1-row[1][b]);
-        else if ( b == 1 ) ans += to_string(1-col[1][a]);
-        else ans += to_string(1-mp[a-b]);
-    }
-    cout << ans << endl;
+    if( p == 0 ) cout << bestLarg << endl;
+    else cout << bestSmall << endl;
 }
 
 int main(){
     clock_t begin = clock();
     // sieve(P_MAX);
     file_i_o();
+    tests = 1;
     cin >> tests;
-    for(int it = 1; it <= tests; it++ )
+
+    for( int i = 1; i <= tests; i++ )
         run_case();
 
     #ifndef ONLINE_JUDGE
@@ -105,4 +101,8 @@ int main(){
     #endif
     return 0;
 }
+//Debug
+//1. size of vi and other containers if applicable
+//2. look for type conversion, char to int
+//3. look for declaration of large arrays.
 
