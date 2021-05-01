@@ -1,5 +1,6 @@
 //===============Template==================
 #include <bits/stdc++.h>
+#include <cctype>
 using namespace std;
 #define endl            '\n' 
 #define ll              long long int
@@ -43,75 +44,49 @@ void file_i_o(){
 #endif
 }
 
-const int MAX = 300007;
+const int modd = 1000000007;
+const int MAX = 1000007;
 int tests;
-int n, k, a;
-vi g[MAX];
-int spc[MAX], has[MAX];
-int dep[MAX], closest[MAX], spnode[MAX];
-
-void prep(int x, int p){
-    has[x] |= spc[x];
-    int spn = 0;
-    for( auto f : g[x] ){
-        if( f == p ) continue;
-        dep[f] = dep[x]+1;
-        prep(f, x);
-        has[x] |= has[f];
-        if( has[f] ) spn = spnode[f];
-    }
-    if( spc[x] ) spnode[x] = x;
-    else spnode[x] = spn;
-}
-
-void dfs(int x, int p){
-    if( has[x] ) closest[x] = x;
-    else closest[x] = closest[p];
-    for( auto f : g[x] ){
-        if( f == p ) continue;
-        dfs(f, x);
-    }
-}
+int n;
+vl a, b;
             
 void run_case(){
-    cin >> n >> k >> a;
-    loop(i, 1, n+1){
-        g[i].clear();
-        spc[i] = dep[i] = closest[i] = has[i] = spnode[i] = 0;
+    cin >> n;
+    a.resize(n);
+    b.resize(n);
+    for( auto &x: a ) cin >> x;
+    for( auto &x: b ) cin >> x;
+    ll total = 0;
+    loop(i, 0, n){
+        total += (a[i]*b[i]);
     }
-    loop(i, 1, k+1){
-        int x;
-        cin >> x;
-        spc[x] = 1;
+    ll best = total;
+    for( int i = 0; i < n; i++){
+        ll cur = total;
+        // center-> x=i, y = i+1
+        for(int x = i-1, y = i+1; x >= 0 && y < n; x--, y++){
+            cur -= a[x] * b[x] + a[y]*b[y];
+            cur += a[x] * b[y] + a[y]*b[x];
+            best = max(best, cur);
+        }
     }
-    loop(i,1 , n){
-        int u, v;
-        cin >> u >> v;
-        g[u].pb(v);
-        g[v].pb(u);
+    for( int i = 0; i < n-1; i++){
+        ll cur = total;
+        // center-> x=i, y = i+1
+        for(int x = i, y = i+1; x >= 0 && y < n; x--, y++){
+            cur -= a[x] * b[x] + a[y]*b[y];
+            cur += a[x] * b[y] + a[y]*b[x];
+            best = max(best, cur);
+        }
     }
-    dep[a] = 0;
-    prep(a, 0);
-    dfs(a, 0);
-
-    for( int i = 1; i <= n; i++ ){
-        int maxval = 2*dep[closest[i]]-dep[i];
-        cout << maxval;
-        if( i < n) cout << " " ;
-        else cout << endl;
-    }
-    loop(i, 1, n+1){
-        cout << spnode[closest[i]];
-        if( i < n ) cout << " ";
-        else cout << endl;
-    }
+    cout << best << endl;
 }
 
 int main(){
     clock_t begin = clock();
     // sieve(P_MAX);
     file_i_o();
-    cin >> tests;
+    tests = 1;
     for(int it = 1; it <= tests; it++ )
         run_case();
 
