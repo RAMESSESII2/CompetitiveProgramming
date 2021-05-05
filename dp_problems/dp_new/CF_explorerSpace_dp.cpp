@@ -1,5 +1,6 @@
 //===============Template==================
 #include <bits/stdc++.h>
+#include <cstring>
 // #include <boost/lexical_cast.hpp> // for lexical_cast() 
 using namespace std;
 typedef long long int ll;
@@ -161,77 +162,6 @@ pair<int, vector < Edge > > getMST(int n, vector< Edge > edges){
     if( res.size() != n-1 ) return make_pair(inf, vector< Edge >());
     return make_pair(cost, res);
 }
-//Segment tree
-typedef int item;
-struct SegmentTree{
-    int size;
-    vector<item> values;
-
-    void init(int n){
-        size = 1;
-        while( size < n ) size <<= 1;
-        values.resize(2*size);
-    }
-
-    item neutralItem = INT_MIN;
-
-    item single(int v){
-        return v;
-    }
-    item merge(item a, item b){
-        return max(a, b);
-    }
-
-    void build(vector<int> &a){
-        return build(a, 0, 0, size);
-    }
-    void build(vector<int> &a, int x, int lx, int rx){
-        if( rx - lx == 1 ){
-            if( lx < (int)a.size() ){
-                values[x] = single(a[lx]);
-            }
-            return;
-        }
-        int m = lx+(rx-lx)/2;
-        build(a, 2*x+1, lx, m);
-        build(a, 2*x+2, m, rx);
-        values[x] = merge(values[2*x+1], values[2*x+2]);
-    }
-
-    void set(int i, int v){
-        return set(i, v, 0, 0, size);
-    }
-    void set(int i, int v, int x, int lx, int rx){
-        if( rx-lx == 1 ){
-            values[x] = single(v);
-            return;
-        }
-        int m = lx+(rx-lx)/2;
-        if( i < m){
-            set(i, v, 2*x+1, lx, m);
-        }
-        else{
-            set(i, v, 2*x+2, m, rx);
-        }
-        values[x] = merge(values[2*x+1], values[2*x+2]);
-    }
-    item calc(int val, int i){
-        return calc(val, i, 0, 0, size);
-    }
-    item calc(int val, int i, int x, int lx, int rx){
-        if( values[x] < val ) return -1;
-        if( rx <= i ) return -1;
-        if( rx - lx == 1 ){
-            return lx;
-        }
-        int m = lx+(rx-lx)/2;
-        item s1 = calc(val, i, 2*x+1, lx, m);
-        if( s1 == -1 ){
-            s1 = calc(val, i, 2*x+2, m, rx);
-        }
-        return s1;
-    }
-};
 template <class A, class B>
 auto findMin(A a, B b) -> decltype(a < b ? a : b)
 {
@@ -254,12 +184,76 @@ void file_i_o(){
 //=================Template Ends=====================
 
 const int modd = 1000000007;
-const int MAX = 1000007;
+const int MAX = 600;
 int tests;
-int n, m;
+int n, m, k;
 vi arr;
+ll gridCol[MAX][MAX];
+ll gridRow[MAX][MAX];
+ll dp[MAX][MAX][22];
+
+ll recur(int i, int j, int k){
+    if( k == 0 ) return 0;
+    if( i > n || j > m || i <= 0 || j <= 0) return inf;
+    if( dp[i][j][k] != -1 ) return dp[i][j][k];
+
+    dp[i][j][k] = min(recur(i+1, j, k-1)+ gridRow[i+1][j], recur(i, j+1, k-1)+ gridCol[i][j+1]);
+
+    dp[i][j][k] = min({dp[i][j][k], recur(i-1, j, k-1)+ gridRow[i][j], recur(i, j-1, k-1)+ gridCol[i][j]});
+    return dp[i][j][k];
+}
 
 void run_case(){
+    int K;
+    cin >> n >> m >> K;
+    memset(gridCol, 1, sizeof gridCol);
+    memset(gridRow, 1, sizeof gridRow);
+    loop(i, 1, n+1){
+        loop(j, 1, m){
+            cin >> gridCol[i][j+1];
+        }
+    }
+    loop(i, 1, n){
+        loop(j, 1, m+1){
+            cin >> gridRow[i+1][j];
+        }
+    }
+    //check
+    // loop(i, 1, n+1){
+    //     loop(j, 1, m){
+    //         cout << gridCol[i][j+1] << " ";
+    //     }
+    //     cout << endl;
+    // }
+    // loop(i, 1, n){
+    //     loop(j, 1, m+1){
+    //         cout << gridRow[i+1][j] << " ";
+    //     }
+    //     cout << endl;
+    // }
+    if( K&1 ){
+        loop(i, 0, n){
+            loop(j, 0, m) cout << -1 << " ";
+            cout << endl;
+        }
+        return;
+    }
+    K >>= 1;
+    // loop(i, 1, n){
+    //     loop(j, 1, m){
+    //         loop(k, 1, K){
+    //             dp[i][j][k]
+    //         }
+    //     }
+    // }
+    memset(dp, -1, sizeof dp);
+    // cout << recur(1, 1, K);
+    loop(i, 1, n+1){
+        loop(j, 1, m+1){
+            cout << (recur(i, j, K)<<1) << " ";
+        }
+        cout << endl;
+    }
 }
 
 int main(){
@@ -267,7 +261,7 @@ int main(){
     // sieve(P_MAX);
     file_i_o();
     tests = 1;
-    cin >> tests;
+    // cin >> tests;
 
     for( int i = 1; i <= tests; i++ )
         run_case();
@@ -282,3 +276,4 @@ int main(){
 //1. size of vi and other containers if applicable
 //2. look for type conversion, char to int
 //3. look for declaration of large arrays.
+

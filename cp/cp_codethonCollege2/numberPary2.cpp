@@ -190,87 +190,31 @@ map<int, set<int>> adj;
 vi arr;
 int ans;
 vi visted;
-int dfs(int v, int p){
-    int ans = 0;
+vi deg;
+
+void dfs(int v, int p){
+    if( visted[v]  ) return;
     visted[v] = 1;
     if( p == 0 ) ans++;
-    for( auto x: adj[v]){
-        if( !visted[x] ){
-            ans += dfs(x, p^1);
-        }
-    }
-    return ans;
+    --deg[arr[v]];
+    if( !deg[arr[v]] || p == 0) dfs(arr[v], p^1);
 }
 
 void run_case(){
     cin >> n;
+    deg.resize(n+1, 0);
+    arr.resize(n+1, 0);
+    visted.resize(n+1, 0);
     loop(i, 1, n+1){
         int x;
         cin >> x;
-        adj[i].insert(x);
-        adj[x].insert(i);
+        arr[i] = x;
+        ++deg[arr[i]];
     }
-    // int ff = 0;
-    // loop(i,1, n+1){
-    //     if( sz(adj[i]) == 1 ) ff++;
-
-    // }
-    // cout << ff << endl;
-    // return;
-    int best = 0;
-    loop(i, 1, n+1){
-        visted.assign(n+1, 0);
-        ans = 0;
-        ans += dfs(i, 0);
-        loop(j, 1, n+1){
-            if( i == j ) continue;
-            if( !visted[j] ){
-                ans += dfs(j, 0);
-            }
-        }
-        // cerr << ans << endl;
-        best = max(ans, best);
-    }
-    loop(i, 1, n+1){
-        visted.assign(n+1, 0);
-        ans = 0;
-        ans += dfs(i, 1);
-        loop(j, 1, n+1){
-            if( i == j ) continue;
-            if( !visted[j] ){
-                ans += dfs(j, 0);
-            }
-        }
-        // cerr << ans << endl;
-        best = max(ans, best);
-    }
-    loop(i, 1, n+1){
-        visted.assign(n+1, 0);
-        ans = 0;
-        ans += dfs(i, 1);
-        loop(j, 1, n+1){
-            if( i == j ) continue;
-            if( !visted[j] ){
-                ans += dfs(j, 1);
-            }
-        }
-        // cerr << ans << endl;
-        best = max(ans, best);
-    }
-    loop(i, 1, n+1){
-        visted.assign(n+1, 0);
-        ans = 0;
-        ans += dfs(i, 0);
-        loop(j, 1, n+1){
-            if( i == j ) continue;
-            if( !visted[j] ){
-                ans += dfs(j, 1);
-            }
-        }
-        // cerr << ans << endl;
-        best = max(ans, best);
-    }
-    cout << best << endl;
+    ans = 0;
+    loop(i, 1, n+1)if( !deg[i]  ) dfs(i, 0);
+    loop(i, 1, n+1)if( !visted[i]  ) dfs(i, 1);
+    cout << ans << endl;
 }
 int main(){
     clock_t begin = clock();
