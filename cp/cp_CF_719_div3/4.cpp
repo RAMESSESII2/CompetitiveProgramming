@@ -161,6 +161,77 @@ pair<int, vector < Edge > > getMST(int n, vector< Edge > edges){
     if( res.size() != n-1 ) return make_pair(inf, vector< Edge >());
     return make_pair(cost, res);
 }
+//Segment tree
+typedef int item;
+struct SegmentTree{
+    int size;
+    vector<item> values;
+
+    void init(int n){
+        size = 1;
+        while( size < n ) size <<= 1;
+        values.resize(2*size);
+    }
+
+    item neutralItem = INT_MIN;
+
+    item single(int v){
+        return v;
+    }
+    item merge(item a, item b){
+        return max(a, b);
+    }
+
+    void build(vector<int> &a){
+        return build(a, 0, 0, size);
+    }
+    void build(vector<int> &a, int x, int lx, int rx){
+        if( rx - lx == 1 ){
+            if( lx < (int)a.size() ){
+                values[x] = single(a[lx]);
+            }
+            return;
+        }
+        int m = lx+(rx-lx)/2;
+        build(a, 2*x+1, lx, m);
+        build(a, 2*x+2, m, rx);
+        values[x] = merge(values[2*x+1], values[2*x+2]);
+    }
+
+    void set(int i, int v){
+        return set(i, v, 0, 0, size);
+    }
+    void set(int i, int v, int x, int lx, int rx){
+        if( rx-lx == 1 ){
+            values[x] = single(v);
+            return;
+        }
+        int m = lx+(rx-lx)/2;
+        if( i < m){
+            set(i, v, 2*x+1, lx, m);
+        }
+        else{
+            set(i, v, 2*x+2, m, rx);
+        }
+        values[x] = merge(values[2*x+1], values[2*x+2]);
+    }
+    item calc(int val, int i){
+        return calc(val, i, 0, 0, size);
+    }
+    item calc(int val, int i, int x, int lx, int rx){
+        if( values[x] < val ) return -1;
+        if( rx <= i ) return -1;
+        if( rx - lx == 1 ){
+            return lx;
+        }
+        int m = lx+(rx-lx)/2;
+        item s1 = calc(val, i, 2*x+1, lx, m);
+        if( s1 == -1 ){
+            s1 = calc(val, i, 2*x+2, m, rx);
+        }
+        return s1;
+    }
+};
 template <class A, class B>
 auto findMin(A a, B b) -> decltype(a < b ? a : b)
 {
@@ -190,24 +261,14 @@ vi arr;
 
 void run_case(){
     cin >> n;
-    string s;
-    cin >> s;
-    map<char, int> mp;
-    int i = 1;
-    for( char x :s ){
-        if(mp[x] == 0){
-            mp[x] = i;
-        }
-        else {
-            if( mp[x] != i-1){
-                cout << NO;
-                return;
-            }
-            mp[x] = i;
-        }
-        i++;
+    map<int, int> freq;
+    int a;
+    ll ans = 0;
+    loop(i, 0, n){
+        cin >> a;
+        ans += freq[a-i]++;
     }
-    cout << YES;
+    cout << ans << endl;
 }
 
 int main(){

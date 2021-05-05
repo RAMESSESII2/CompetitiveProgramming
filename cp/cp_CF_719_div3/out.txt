@@ -1,4 +1,7 @@
-hello world
+1
+3
+3
+10
 
 
-Executed In: 9.6e-05 seconds
+Executed In: 0.000303 seconds

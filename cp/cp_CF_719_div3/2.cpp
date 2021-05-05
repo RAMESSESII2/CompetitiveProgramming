@@ -1,5 +1,7 @@
 //===============Template==================
 #include <bits/stdc++.h>
+#include <cctype>
+#include <string>
 // #include <boost/lexical_cast.hpp> // for lexical_cast() 
 using namespace std;
 typedef long long int ll;
@@ -190,24 +192,31 @@ vi arr;
 
 void run_case(){
     cin >> n;
-    string s;
-    cin >> s;
-    map<char, int> mp;
-    int i = 1;
-    for( char x :s ){
-        if(mp[x] == 0){
-            mp[x] = i;
+    int count = 0;
+    for( int i = 1; i <= 9; i++){
+        for( int x = 1; x <= 9; x++){
+            count += (stoi(string(i, '0'+x)) <= n);
         }
-        else {
-            if( mp[x] != i-1){
-                cout << NO;
-                return;
-            }
-            mp[x] = i;
-        }
-        i++;
     }
-    cout << YES;
+    cout << count << endl;
+    // if( n <= 9){
+    //     cout << n << endl;
+    //     return;
+    // }
+    // int ans = 0;
+    // int dig = sz(to_string(n))-1;
+    // ans += 9*dig;
+    // int largDig = (to_string(n))[0] - '0';
+    // bool add = true;
+    // for( int i=1; i <= dig; i++){
+    //     if(((to_string(n)[i] - '0')<largDig)){
+    //         add =false;
+    //         break;
+    //     }
+    // }
+    // if( add ) ans += largDig;
+    // else ans += largDig-1;
+    // cout << ans << endl;
 }
 
 int main(){
