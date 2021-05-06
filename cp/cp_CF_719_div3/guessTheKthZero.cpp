@@ -1,6 +1,5 @@
 //===============Template==================
 #include <bits/stdc++.h>
-#include <numeric>
 using namespace std;
 #define endl            '\n' 
 #define ll              long long int
@@ -47,33 +46,36 @@ void file_i_o(){
 const int modd = 1000000007;
 const int MAX = 1000007;
 int tests;
-int n, c;
-vl arr;
+int n, t;
+int l, r;
+int K;
+vi arr;
             
 void run_case(){
-    cin >> n >> c;
-    arr.resize( n );
-    for( auto &x: arr ) cin >> x;
-    ll ans = 1L;
-    int prev = 1;
-    vl dp(n, 0);
-    vl dp2(n);
-    ll total = accumulate(all(arr), 0L);
-    loop(i, 0, n){
-        if( arr[i] < c ){
-            dp[i] += min(c-arr[i], total-arr[i])%modd;
+    cin >> n >> t >> K;
+    int low = 1, high = n;
+    int sum, zeros, m;
+    cout.flush();
+    while( high > low){
+        int m = low+(high-low)/2;
+        cout  << "? " << low << " " << m << endl;
+        cin >> sum;
+        if( (m-low+1)-sum >= K){
+            high = m;
+        }
+        else {
+            K -= (m-low+1)-sum;
+            low = m+1;
         }
     }
-    ans = accumulate(all(dp), 0);
-    cout <<ans << endl;
+    cout <<"! " << high << endl;
 }
 
 int main(){
     clock_t begin = clock();
     // sieve(P_MAX);
-    file_i_o();
+    // file_i_o();
     tests = 1;
-    cin >> tests;
     for(int it = 1; it <= tests; it++ )
         run_case();
 
