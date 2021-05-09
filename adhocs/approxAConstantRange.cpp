@@ -257,9 +257,29 @@ const int modd = 1000000007;
 const int MAX = 1000007;
 int tests;
 int n, m;
+int l, r;
 vi arr;
 
 void run_case(){
+    cin >> n ;
+    arr.resize(n);
+    for( auto &x : arr ) cin >> x;
+    int last;
+    int ans = 1;
+    int pdiff = l = r = 0;
+    int diff;
+    loop(i, 1, n){
+        diff = arr[i] - arr[i-1];
+        if(diff){
+            if( diff == pdiff ){
+                r = l+1;
+            }
+            l = i - 1;
+            pdiff = diff;
+        }
+        ans = max(ans, i-r + 1);
+    }
+    cout << ans << endl;
 }
 
 int main(){
@@ -267,7 +287,7 @@ int main(){
     // sieve(P_MAX);
     file_i_o();
     tests = 1;
-    cin >> tests;
+    // cin >> tests;
 
     for( int i = 1; i <= tests; i++ )
         run_case();

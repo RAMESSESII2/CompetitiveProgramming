@@ -1,6 +1,6 @@
 #include<bits/stdc++.h>
-#define ll long long int
 using namespace std;
+#define ll long long int
 
 void file_i_o(){
     ios_base::sync_with_stdio(0);
@@ -13,10 +13,10 @@ void file_i_o(){
 #endif
 }
 
+int TC;
 int main()
 {
     file_i_o();
-    ll TC;
     TC = 1;
     cin >> TC;
     while (TC--)
