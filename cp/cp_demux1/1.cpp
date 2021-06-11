@@ -1,12 +1,7 @@
 #include<bits/stdc++.h>
+#include <vector>
 using namespace std;
-
 #define ll long long int
-#define ld long long double
-#define all(r)  (r.begin(), r.end())
-using vi = vector<int>;
-using vl = vector<ll>;
-using pii = pair<int, int>;
 
 void file_i_o(){
     ios_base::sync_with_stdio(0);
@@ -19,18 +14,25 @@ void file_i_o(){
 #endif
 }
 
-const int inf = INT_MAX;
-
 int TC;
 int main()
 {
     file_i_o();
     TC = 1;
-    cin >> TC;
     while (TC--)
     {
-
+        int n;
+        cin >> n;
+        vector<int> len(n);
+        for( auto &x: len ){
+            cin >> x;
+        }
+        vector<ll> suff(n);
+        for( int i= 0; i < n; i++ ){
+            suff[i] += suff[i-1] + len[i];
+        }
     }
     return 0;
 }
+
 

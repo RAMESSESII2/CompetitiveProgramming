@@ -1,4 +1,6 @@
 #include<bits/stdc++.h>
+#include <string>
+#include <type_traits>
 using namespace std;
 
 #define ll long long int
@@ -29,8 +31,20 @@ int main()
     cin >> TC;
     while (TC--)
     {
-
+        int l, r;
+        cin >> l >> r;
+        auto calc = [](int n)->ll{
+            ll ans = 0L;
+            for( int i = 0; i < (int)to_string(n).length(); i++ ){
+                int div = 1;
+                for(int t = i; t > 0; t--)div *= 10;
+                ans += n/div;
+            }
+            return ans;
+        };
+        cout << calc(r) - calc(l) << endl;
     }
     return 0;
 }
+
 
