@@ -1,0 +1,8 @@
+Each time an object is created using new() keyword at least one constructor (it could be default constructor) is invoked to assign initial values to the data members of the same class.
+A constructor is invoked at the time of object or instance creation. 
+1. Constructor(s) of a class must has same name as the class name in which it resides.
+2. A constructor in Java can not be abstract, final, static and Synchronized.
+3. Access modifiers can be used in constructor declaration to control its access i.e which other class can call the constructor.
+# There are no “return value” statements in constructor, but constructor returns current class instance.
+# Constructor is called only once at the time of Object creation while method(s) can be called any numbers of time.
+

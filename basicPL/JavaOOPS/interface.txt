@@ -1,0 +1,7 @@
+* An interface is a reference type in Java.
+* It is a collection of abstract methods.
+* It is used to provide total abstraction.
+* That means all the methods in an interface are declared with an empty body and are public and all fields are public, static and final by default.
+* A class that implements an interface must implement all the methods declared in the interface. To implement interface use implements keyword.
+* The reason is, abstract classes may contain non-final variables, whereas variables in interface are final, public and static.
+* Prior to JDK 8, interface could not define implementation. We can now add default implementation for interface methods. This default implementation has special use and does not affect the intention behind interfaces.

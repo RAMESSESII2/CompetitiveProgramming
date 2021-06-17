@@ -1,0 +1,9 @@
+1 Single level inheritance        }-|
+2 Multilevel inheritance          } ---Main
+3 Hierarichical inheritance       }-|
+4 Multiple Inheritance
+5 Hybrid Inheritance
+A parent class can't inherit any of its child class properties.
+** Why multiple Inheritance is not possible in Java?
+-- Compiler will give a comple time error.
+

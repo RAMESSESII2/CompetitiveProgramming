@@ -1,0 +1,58 @@
+STATIC METHOD
+1 There can be more than one static block and they are executed 
+before main method
+2 Static method doesn't execute w/o main method although it did 
+for version>1.8
+3 Static method can be overloaded.
+
+4 Main() method is declared as static.
+5 Override --static method- Yes>eg. Child class overrides parent 
+class static 
+6 method.
+7 We can have multiple blocks of static method.
+8 Abstract method can't be static in Java.
+9 Interface can't be static in Java.
+10 Why non-static variable cannot be referenced from a static 
+method?
+---we always need to create an object in order to refer to a 
+nonstatic variable 
+from a static context.
+***Overriding is a feature of OOP languages like Java that is 
+related to run-time polymorphism. A subclass (or derived class) 
+provides a specific implementation of a method in superclass 
+(or base class).
+***Overloading is also a feature of OOP languages like Java that 
+is related to compile time (or static) polymorphism. This feature 
+allows different methods to have same name, but different 
+signatures, especially number of input parameters and type of 
+input paramaters. Note that in both C++ and Java, methods cannot 
+be overloaded according to return type.
+**We cannot overload two methods in Java if they differ only by 
+static keyword (number of parameters and types of parameters 
+is same). See following Java program for example. 
+This behaviour is same in C++ 
+**********
+Can we Override static methods in java?
+We can declare static methods with same signature in subclass, 
+but it is not considered overriding as there won’t be any 
+run-time polymorphism.
+Hence the answer is ‘No’.
+If a derived class defines a static method with same signature 
+as a static method in base class, the method in the derived 
+class hides the method 
+in the base class.
+
+Following are some important points for method overriding and 
+static methods in Java.
+1) For class (or static) methods, the method according to the type 
+of reference is called, not according to the object being referred,
+which means method call is decided at compile time.
+
+2) For instance (or non-static) methods, the method is called 
+according to the type of object being referred, not according to 
+the type of reference, which means method calls is decided at 
+run time.
+
+3) An instance method cannot override a static method, and a static
+ method cannot hide an instance method. For example, the following 
+ program has two compiler errors.
