@@ -1,4 +1,5 @@
 #include<iostream>
+    
 using namespace std;
 void file_i_o(){
     ios_base::sync_with_stdio(0);

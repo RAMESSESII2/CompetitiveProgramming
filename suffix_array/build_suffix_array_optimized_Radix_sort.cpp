@@ -76,7 +76,11 @@ void file_i_o(){
 /*     return a>b; */
 /* } */
 void radix_sort(vector<pair<pair<int, int>, int>> &a){
-    int n = a.size(); { vi cnt(n); for(auto x: a){ cnt[x.ff.ss]++;
+    int n = a.size(); 
+    { 
+        vi cnt(n); 
+        for(auto x: a){ 
+            cnt[x.ff.ss]++;
         }
         vector<pair<pair<int, int>, int>> a_new(n);
         vector<int> pos(n);

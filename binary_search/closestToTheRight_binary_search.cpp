@@ -1,5 +1,6 @@
 //Template
 #include <bits/stdc++.h>
+#include <cstdio>
 using namespace std;
 
 #define ll              long long int
@@ -65,11 +66,7 @@ void file_i_o(){
 /* } */ 
   
 ll binary_search(vi arr, ll low, ll high, ll search_key){
-<<<<<<< HEAD
-=======
 /* Given an array of n numbers, sorted in non-decreasing order, and k queries. For each query, print the minimum index of an array element not less than the given one. */
-
->>>>>>> b3f8940d63abb482d13def048981d2499351583e
     //-inf 23 54 56 67 +inf
     // ^                 ^
     // |(l)              |(r)
