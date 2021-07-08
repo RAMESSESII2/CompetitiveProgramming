@@ -1,4 +1,2 @@
-3
-acxz
-bcxz
-opqrs
+1
+10
