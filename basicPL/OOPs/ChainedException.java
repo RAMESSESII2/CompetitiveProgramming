@@ -16,7 +16,7 @@ public class ChainedException
       }
     }
     //unchecked excetpions are not needed to be caught
-    static void newMethod() throws ArithmeticException{
+    static void newMethod() {
       int a = 5/0;
     }
     static void newMethod2(){
@@ -30,9 +30,9 @@ public class ChainedException
       // throw new ArithmeticException("AEEX");
     }
     //error because we're not handling newMethod3() anywhere in the program
-    // static void newMethod3() throws IOException{
-    //   throw new IOException("catch IO");
-    // }
+    static void newMethod3() throws IOException{
+      throw new IOException("catch IO");
+    }
 
     public static void main(String[] a)
     {
@@ -44,7 +44,8 @@ public class ChainedException
         System.out.println( "caught : " +ae);
         System.out.println("actual cause: "+ae.getCause());
       }
-      newMethod2();
+      // newMethod2();
       newMethod();
+      // newMethod3();
     }
 }

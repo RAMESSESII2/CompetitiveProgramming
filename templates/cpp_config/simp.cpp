@@ -3,7 +3,7 @@ using namespace std;
 
 #define ll long long int
 #define ld long long double
-#define all(r)  (r.begin(), r.end())
+#define all(r)   r.begin(), r.end()
 using vi = vector<int>;
 using vl = vector<ll>;
 using pii = pair<int, int>;
